@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
+    "@prisma/client": "^5.4.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
@@ -44,6 +45,7 @@
     "eslint-config-next": "13.4.19",
     "lucide-react": "^0.279.0",
     "next": "13.4.19",
+    "next-auth": "^4.24.3",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.4.2",
     "postcss": "8.4.28",
@@ -70,6 +72,7 @@
     "jest-environment-jsdom": "^29.6.4",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
+    "prisma": "^5.4.2",
     "supabase": "^1.99.5"
   }
 }
