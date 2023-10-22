@@ -1,15 +1,17 @@
 import { cn } from '@/lib/utils/helpers';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
+import Image from 'next/image';
 
 const HeroScreenshot = () => {
   return (
     <div className="hidden lg:grid items-center justify-center mt-16 mx-8">
-      <img
+      <Image
         src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
         alt="App screenshot"
-        height="90%"
-        className="mx-auto lg:max-lg:w-[90%]  2xl:max-w-[72rem]"
+        className="mx-auto h-[90%] lg:max-lg:w-[90%]  2xl:max-w-[72rem]"
+        width={3840}
+        height={75}
       />
     </div>
   );

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { todoFormSchema, todoFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
@@ -10,7 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Icons } from '@/components/Icons';
-import { CreateTodo } from '@/lib/API/Database/todos/Browser/mutations';
+import { CreateTodo } from '@/lib/API/Database/todos/mutations';
 import { toast } from 'react-toastify';
 import { User } from '@supabase/supabase-js';
 
@@ -57,7 +56,7 @@ export default function TodosCreateForm({ user, author }: TodosCreateFormProps) 
 
   return (
     <div>
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">New Todo</CardTitle>
           <CardDescription>Create a Todo with Title and Description</CardDescription>
@@ -71,9 +70,15 @@ export default function TodosCreateForm({ user, author }: TodosCreateFormProps) 
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormMessage /> <FormLabel>Title</FormLabel>
+                    <FormMessage />
+                    <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input {...register('title')} type="text" {...field} />
+                      <Input
+                        {...register('title')}
+                        type="text"
+                        className="bg-background-light dark:bg-background-dark"
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -85,7 +90,10 @@ export default function TodosCreateForm({ user, author }: TodosCreateFormProps) 
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea {...field} />
+                      <Textarea
+                        className="bg-background-light dark:bg-background-dark"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

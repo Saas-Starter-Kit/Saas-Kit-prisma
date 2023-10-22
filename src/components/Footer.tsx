@@ -95,7 +95,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 ">
           <p className="text-xs leading-5 text-slate-300 py-4 text-center md:text-left">
-            &copy; 2020 Your Company, Inc. All rights reserved.
+            &copy; 2023 Your Company, Inc. All rights reserved.
           </p>
           <div className="text-white py-4 justify-self-center">
             <div className="flex items-end">

@@ -14,8 +14,7 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Icons } from '@/components/Icons';
 import { Switch } from '@/components/ui/Switch';
-import { CreateStripeCheckoutSession } from '@/lib/API/Routes/stripe';
-import { User } from '@supabase/supabase-js';
+import { createCheckoutSession } from '@/lib/API/Services/stripe/session';
 import { ProductI } from '@/lib/types/types';
 import { IntervalE } from '@/lib/types/enums';
 
@@ -47,11 +46,11 @@ const PriceCard = ({ product, handleSubscription, timeInterval }: PriceCardProps
 
   useEffect(() => {
     setProductPlan();
-  }, [timeInterval, setProductPlan]);
+  }, [timeInterval]);
 
   return (
     <Card
-      className={`flex flex-col items-center justify-center border mt-4 ${
+      className={`flex flex-col items-center justify-center border mt-4 bg-background-light dark:bg-background-dark ${
         plan.isPopular && 'border-blue-500 relative'
       }`}
     >
@@ -66,7 +65,7 @@ const PriceCard = ({ product, handleSubscription, timeInterval }: PriceCardProps
       </CardHeader>
       <CardContent className="flex flex-col items-center">
         <div className="flex flex-col items-center mt-2 mb-6">
-          <h4 className="text-5xl text-black font-bold">${plan?.price}</h4>
+          <h4 className="text-5xl font-bold">${plan?.price}</h4>
           <div className="text-sm font-medium text-muted-foreground">Billed {timeInterval}</div>
         </div>
         <ul className="flex flex-col space-y-4">
@@ -86,11 +85,7 @@ const PriceCard = ({ product, handleSubscription, timeInterval }: PriceCardProps
   );
 };
 
-interface PricingDisplayProps {
-  user: User;
-}
-
-const PricingDisplay = ({ user }: PricingDisplayProps) => {
+const PricingDisplay = () => {
   const [timeInterval, setTimeInterval] = useState(IntervalE.MONTHLY);
 
   const { products } = configuration;
@@ -99,12 +94,11 @@ const PricingDisplay = ({ user }: PricingDisplayProps) => {
   const premium: ProductI = products[1];
 
   const router = useRouter();
-  const { id, email } = user;
 
   const handleSubscription = async (price: string) => {
-    const res = await CreateStripeCheckoutSession(price, id, email);
+    const res = await createCheckoutSession({ price });
 
-    router.push(res.data.url);
+    router.push(res.url);
   };
 
   const changeTimeInterval = () => {
@@ -114,7 +108,7 @@ const PricingDisplay = ({ user }: PricingDisplayProps) => {
 
   return (
     <div className=" flex flex-col">
-      <h4 className="text-xl text-black font-bold">Add Subscription</h4>
+      <h4 className="text-xl font-bold">Add Subscription</h4>
       <p className="text-sm font-medium text-muted-foreground mt-2 mb-4">
         Add a Subscription by choosing a plan below
       </p>

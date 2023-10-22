@@ -40,7 +40,7 @@ export default function ForgotPassword() {
 
   return (
     <div>
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Forgot Password</CardTitle>
           <CardDescription>
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...register('email')} placeholder="Email" type="text" {...field} />
+                      <Input {...register('email')} placeholder="Email" type="text" className="bg-background-light dark:bg-background-dark" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

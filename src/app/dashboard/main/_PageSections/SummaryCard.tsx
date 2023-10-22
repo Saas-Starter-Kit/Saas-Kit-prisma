@@ -12,7 +12,7 @@ interface SummaryCardProps {
 
 const SummaryCard = ({ card_title, icon, content_main, content_secondary }: SummaryCardProps) => {
   return (
-    <Card>
+    <Card className='bg-background-light dark:bg-background-dark'>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{card_title}</CardTitle>
         {icon}

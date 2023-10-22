@@ -45,11 +45,11 @@ const PriceCard = ({ product, timeInterval }: PriceCardProps) => {
 
   useEffect(() => {
     setProductPlan();
-  }, [timeInterval, setProductPlan]);
+  }, [timeInterval]);
 
   return (
     <Card
-      className={`flex flex-col items-center justify-center w-72 border ${
+      className={`flex flex-col items-center justify-center w-72 border bg-background-light dark:bg-background-dark ${
         plan.isPopular && 'border-blue-500 relative'
       }`}
     >

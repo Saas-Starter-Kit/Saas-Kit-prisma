@@ -20,7 +20,9 @@ const config = {
     requireAuth: '/auth/auth-required',
     authConfirm: '/auth/auth-confirm',
     callback: '/api/auth-callback',
-    toProfile: '/dashboard/settings/profile'
+    toProfile: '/dashboard/settings/profile',
+    requireSub: '/dashboard/settings/subscription-required',
+    toAddSub: '/dashboard/settings/add-subscription'
   }
 };
 

@@ -8,7 +8,7 @@ const AuthConfirm = () => {
   const router = useRouter();
 
   return (
-    <Card>
+    <Card className="bg-background-light dark:bg-background-dark">
       <CardHeader>
         <CardTitle>Request Submitted</CardTitle>
         <CardDescription>Please check your email</CardDescription>

@@ -13,7 +13,7 @@ export const Header = () => {
     <header>
       <div className="flex items-center justify-between p-6">
         <MainLogoText />
-        <Nav items={routes} />
+        <Nav items={routes}/>
         <div className="flex justify-center items-center">
           <ThemeDropDownMenu />
           <nav>

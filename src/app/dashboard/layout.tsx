@@ -1,7 +1,7 @@
 import SideBar from './_PageSections/SideBar';
 import Header from './_PageSections/Header';
 import { SupabaseSession } from '@/lib/API/Services/supabase/user';
-import { GetProfileByUserId } from '@/lib/API/Database/profile/Server/queries';
+import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
 import { redirect } from 'next/navigation';
 import config from '@/lib/config/auth';
 import { ProfileT } from '@/lib/types/supabase';

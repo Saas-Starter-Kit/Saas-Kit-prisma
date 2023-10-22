@@ -62,7 +62,7 @@ export default function TodosEditForm({ todo }: EditFormProps) {
 
   return (
     <div>
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Update Todo</CardTitle>
           <CardDescription>Update Todo with a new Title or Description</CardDescription>
@@ -79,7 +79,7 @@ export default function TodosEditForm({ todo }: EditFormProps) {
                     <FormMessage />
                     <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input {...register('title')} {...field} />
+                      <Input {...register('title')} className="bg-background-light dark:bg-background-dark" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -91,7 +91,7 @@ export default function TodosEditForm({ todo }: EditFormProps) {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea {...field} />
+                      <Textarea {...field} className="bg-background-light dark:bg-background-dark"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

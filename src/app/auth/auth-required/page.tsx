@@ -8,7 +8,7 @@ const AuthRequired = () => {
   const router = useRouter();
 
   return (
-    <Card>
+    <Card className="bg-background-light dark:bg-background-dark">
       <CardHeader>
         <CardTitle>Authentication Required </CardTitle>
         <CardDescription>Please Sign in to view this page.</CardDescription>

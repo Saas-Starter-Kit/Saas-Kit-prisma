@@ -119,7 +119,7 @@ const renderQuarterTick = (tickProps) => {
 
 const BarChartComp = () => {
   return (
-    <Card className="p-4">
+    <Card className="p-4 bg-background-light dark:bg-background-dark">
       <CardTitle className="mb-6 text-center">Quarterly Revenue:</CardTitle>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>

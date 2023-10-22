@@ -5,7 +5,3 @@ export type TodoT = {
   author?: string;
   user_id?: string;
 };
-
-export type TodosListT = {
-  todos: TodoT[];
-};

@@ -19,7 +19,7 @@ export const Nav = ({ items }: NavProps) => {
       <NavigationMenu className="hidden md:inline-block">
         <NavigationMenuList>
           {items.map((item) => (
-            <NavigationMenuItem>
+            <NavigationMenuItem key={item.title}>
               <Link href={item.link} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {item.title}

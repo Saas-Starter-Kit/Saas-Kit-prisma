@@ -26,15 +26,10 @@ export type CreatePortalSessionPropsT = {
 
 export type CreateCheckoutSessionPropsT = {
   price: string;
-  customer_email: string;
-  user_id: string;
-  origin: string;
 };
 
 export type CheckoutSessionReqPropsT = {
-  user_id: string;
   price: string;
-  customer_email: string;
 };
 
 // imported Stripe Event from 'stripe' type has outdated keys/values

@@ -1,3 +1,5 @@
+'use server';
+
 import stripe from '@/lib/API/Services/init/stripe';
 import Stripe from 'stripe';
 import { CustomerPropsT } from '@/lib/types/stripe';

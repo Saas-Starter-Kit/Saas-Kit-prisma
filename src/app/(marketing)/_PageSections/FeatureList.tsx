@@ -8,7 +8,7 @@ interface FeatureCardI {
 
 const FeatureCard = ({ heading, description, icon }: FeatureCardI) => {
   return (
-    <div className="rounded-lg border bg-background p-2">
+    <div className="rounded-lg border bg-background-light dark:bg-background-dark p-2">
       <div className="flex h-[180px] flex-col justify-between p-6">
         <div className="space-y-2">
           {icon}

@@ -79,7 +79,7 @@ export default function AuthForm() {
 
   return (
     <div className="md:w-96">
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Login to your Account</CardTitle>
           <CardDescription>Enter your email and password below to login</CardDescription>
@@ -95,7 +95,7 @@ export default function AuthForm() {
                     <FormMessage />
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...register('email')} type="text" placeholder="Email" {...field} />
+                      <Input {...register('email')} type="text" placeholder="Email" className="bg-background-light dark:bg-background-dark" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -108,7 +108,8 @@ export default function AuthForm() {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input
+                        <Input 
+                          className="bg-background-light dark:bg-background-dark"
                           {...register('password')}
                           type={showPassword ? 'text' : 'password'}
                           placeholder="Password"

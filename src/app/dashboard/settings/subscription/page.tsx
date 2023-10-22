@@ -1,21 +1,24 @@
-import PricingDisplay from '../_PageSections/PricingDisplay';
-import { SupabaseSession } from '@/lib/API/Services/supabase/user';
-import { GetProfileByUserId } from '@/lib/API/Database/profile/Server/queries';
+import { SupabaseUser } from '@/lib/API/Services/supabase/user';
+import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
 
-import { GetSubscriptionById } from '@/lib/API/Database/subcription/Server/queries';
-import SubscriptionExists from '../_PageSections/SubscriptionExists';
+import { GetSubscriptionById } from '@/lib/API/Database/subcription/queries';
+import SubscriptionDisplay from '../_PageSections/Subscription';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { SubscriptionT } from '@/lib/types/supabase';
+import { redirect } from 'next/navigation';
+import config from '@/lib/config/auth';
 
 export default async function Subscription() {
-  const session = await SupabaseSession();
-  const user = session?.data?.session?.user;
+  const user = await SupabaseUser();
 
   const profile = await GetProfileByUserId(user?.id);
+  const subscription_id = profile?.data?.[0]?.subscription_id;
+
+  if (!subscription_id) redirect(config.redirects.toAddSub);
 
   let subscription: PostgrestSingleResponse<SubscriptionT[]>;
   if (profile?.data?.[0]?.subscription_id) {
-    //subscription = await GetSubscriptionById(profile?.data?.[0]?.subscription_id);
+    subscription = await GetSubscriptionById(profile?.data?.[0]?.subscription_id);
   }
 
   const price_id = subscription?.data[0]?.price_id;
@@ -24,10 +27,7 @@ export default async function Subscription() {
 
   return (
     <div>
-      {!subscription && <PricingDisplay user={user} />}
-      {subscription && (
-        <SubscriptionExists price_id={price_id} status={status} period_ends={period_ends} />
-      )}
+      <SubscriptionDisplay price_id={price_id} status={status} period_ends={period_ends} />
     </div>
   );
 }

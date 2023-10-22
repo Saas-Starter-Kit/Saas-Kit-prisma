@@ -10,15 +10,15 @@ const config = {
     about: {
       title: 'About',
       routes: [
-        { title: 'pricing', link: '/pricing' },
-        { title: 'faq', link: '/faq' }
+        { title: 'Pricing', link: '/pricing' },
+        { title: 'FAQs', link: '/faq' }
       ]
     },
     resources: {
       title: 'Resources',
       routes: [
-        { title: 'blog', link: '/' },
-        { title: 'docs', link: '/' }
+        { title: 'Blog', link: '/' },
+        { title: 'Docs', link: '/' }
       ]
     },
     legal: {

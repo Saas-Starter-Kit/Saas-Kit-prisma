@@ -23,9 +23,12 @@ const Faq = ({ question, answer }: FaqPropsI) => {
 export default function FAQs() {
   return (
     <div>
-      {faqs.map((faq) => (
-        <Faq answer={faq.answer} question={faq.question} />
-      ))}
+      {/*<div key={question} className="my-8">
+        <div className="flex items-center">
+          <span className="font-semibold text-lg">{question}</span>
+        </div>
+        <div className="text-slate-400 text-base font-medium">{answer}</div>
+      </div>*/}
     </div>
   );
 }

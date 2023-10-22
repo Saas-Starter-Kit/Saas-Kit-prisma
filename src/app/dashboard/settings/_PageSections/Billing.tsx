@@ -5,24 +5,20 @@ import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 
-import { CreateStripePortalSession } from '@/lib/API/Routes/stripe';
+import { createPortalSession } from '@/lib/API/Services/stripe/session';
 
-interface ManageSubProps {
-  customer: string;
-}
-
-const ManageSubscription = ({ customer }: ManageSubProps) => {
+const Billing = () => {
   const router = useRouter();
 
   const handleSubscription = async () => {
-    const res = await CreateStripePortalSession(customer);
+    const res = await createPortalSession();
 
-    router.push(res.data.url);
+    router.push(res.url);
   };
 
   return (
     <div className="mt-6">
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader>
           <CardTitle>Manage Subscription & Billing</CardTitle>
           <CardDescription>
@@ -41,4 +37,4 @@ const ManageSubscription = ({ customer }: ManageSubProps) => {
   );
 };
 
-export default ManageSubscription;
+export default Billing;

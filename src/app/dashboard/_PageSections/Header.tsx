@@ -28,7 +28,7 @@ const Header = ({ display_name, email, avatar_url }: HeaderProps) => {
     } else {
       setHeaderText('Dashboard');
     }
-  }, [pathname]);
+  }, []);
 
   return (
     <div className="border-b">

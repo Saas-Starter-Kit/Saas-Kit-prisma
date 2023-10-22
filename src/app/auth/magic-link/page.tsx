@@ -52,7 +52,7 @@ export default function MagicLink() {
 
   return (
     <div className="md:w-96">
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Email Link to Login</CardTitle>
           <CardDescription>
@@ -71,7 +71,7 @@ export default function MagicLink() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Email" {...register('email')} {...field} />
+                      <Input type="text" placeholder="Email" {...register('email')} className="bg-background-light dark:bg-background-dark" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

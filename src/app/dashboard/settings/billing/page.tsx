@@ -1,24 +1,19 @@
-import ManageSubscription from '../_PageSections/ManageSubscription';
-import { SupabaseSession } from '@/lib/API/Services/supabase/user';
-import { GetProfileByUserId } from '@/lib/API/Database/profile/Server/queries';
-import SubscriptionRequired from '../_PageSections/SubscriptionRequired';
+import ManageSubscription from '../_PageSections/Billing';
+import { SupabaseUser } from '@/lib/API/Services/supabase/user';
+import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
+import { redirect } from 'next/navigation';
+import config from '@/lib/config/auth';
 
 export default async function Billing() {
-  const session = await SupabaseSession();
-
-  const user = session?.data?.session?.user;
-
+  const user = await SupabaseUser();
   const profile = await GetProfileByUserId(user.id);
+  const subscription = profile?.data?.[0]?.subscription_id;
 
-  //const subscription = profile?.data?.[0]?.subscription_id;
-  //const customer = profile?.data?.[0]?.stripe_customer_id;
-  const subscription = '';
-  const customer = '';
+  if (!subscription) redirect(config.redirects.requireSub);
 
   return (
     <div>
-      {subscription && <ManageSubscription customer={customer} />}
-      {!subscription && <SubscriptionRequired />}
+      <ManageSubscription />
     </div>
   );
 }

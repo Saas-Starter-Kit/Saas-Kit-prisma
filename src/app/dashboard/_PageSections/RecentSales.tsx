@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export function RecentSales() {
   return (
-    <Card>
+    <Card className='bg-background-light dark:bg-background-dark'>
       <CardHeader>
         <CardTitle>Recent Sales:</CardTitle>
         <CardDescription>Sales made within the last 30 days</CardDescription>

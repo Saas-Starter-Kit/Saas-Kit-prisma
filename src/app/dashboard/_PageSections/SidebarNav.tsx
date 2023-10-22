@@ -19,7 +19,7 @@ const SidebarNavItem = ({ item, isOpen }: SidebarNavItemProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="my-4 w-full">
+    <div className="w-full">
       <Link key={item.title} href={item.link}>
         <span
           className={`flex items-center rounded-md p-4 text-sm space-x-2 font-medium

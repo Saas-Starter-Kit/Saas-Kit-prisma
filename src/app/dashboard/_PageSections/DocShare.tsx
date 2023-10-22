@@ -15,14 +15,14 @@ import { Separator } from '@/components/ui/Separator';
 
 export function DocShare() {
   return (
-    <Card>
+    <Card className='bg-background-light dark:bg-background-dark'>
       <CardHeader>
         <CardTitle>Share this document</CardTitle>
         <CardDescription>Anyone with the link can view this document.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">
-          <Input value="http://example.com/link/to/document" readOnly />
+          <Input value="http://example.com/link/to/document" readOnly className='bg-background-light dark:bg-background-dark'/>
           <Button variant="secondary" className="shrink-0">
             Copy Link
           </Button>
@@ -42,7 +42,7 @@ export function DocShare() {
                 </div>
               </div>
               <Select defaultValue="edit">
-                <SelectTrigger className="ml-auto w-[110px]">
+                <SelectTrigger className="ml-auto w-[110px] bg-background-light dark:bg-background-dark">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -62,7 +62,7 @@ export function DocShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger className="ml-auto w-[110px]">
+                <SelectTrigger className="ml-auto w-[110px] bg-background-light dark:bg-background-dark">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -82,7 +82,7 @@ export function DocShare() {
                 </div>
               </div>
               <Select defaultValue="view">
-                <SelectTrigger className="ml-auto w-[110px]">
+                <SelectTrigger className="ml-auto w-[110px] bg-background-light dark:bg-background-dark">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>

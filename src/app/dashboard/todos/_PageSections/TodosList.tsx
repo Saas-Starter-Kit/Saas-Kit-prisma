@@ -3,7 +3,7 @@ import { TodosListT, TodoT } from '@/lib/types/todos';
 
 const TodoCard = ({ title, description, author }: TodoT) => {
   return (
-    <Card className="my-4">
+    <Card className="my-4 bg-background-light dark:bg-background-dark">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

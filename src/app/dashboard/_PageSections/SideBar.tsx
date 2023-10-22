@@ -6,7 +6,7 @@ import { SideBarNav } from './SidebarNav';
 import configuration from '@/lib/config/dashboard';
 
 const Sidebar = () => {
-  const [isOpen, setOpen] = useState(true);
+  const [ isOpen, setOpen ] = useState(true);
   const { routes } = configuration;
 
   return (

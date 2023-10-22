@@ -26,7 +26,7 @@ const data02 = [
 
 const PieChartComp = () => {
   return (
-    <Card className="p-4">
+    <Card className="p-4 bg-background-light dark:bg-background-dark">
       <CardTitle className="mb-6 text-center">Current Usage:</CardTitle>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>

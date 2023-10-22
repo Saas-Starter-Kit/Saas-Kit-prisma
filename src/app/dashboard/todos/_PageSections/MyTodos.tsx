@@ -24,7 +24,7 @@ const TodoCard = ({ id, title, description }: TodoT) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-background-light dark:bg-background-dark">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

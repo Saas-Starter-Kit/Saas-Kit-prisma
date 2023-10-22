@@ -42,7 +42,7 @@ const SubscriptionExists = ({ price_id, status, period_ends }: SubscriptionExist
 
   useEffect(() => {
     matchSubscription();
-  }, [matchSubscription]);
+  }, []);
 
   const router = useRouter();
 
@@ -52,7 +52,7 @@ const SubscriptionExists = ({ price_id, status, period_ends }: SubscriptionExist
 
   return (
     <div className="mt-6">
-      <Card>
+      <Card className="bg-background-light dark:bg-background-dark">
         <CardHeader>
           <CardTitle>Subscription</CardTitle>
           <CardDescription>
