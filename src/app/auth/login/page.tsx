@@ -1,7 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-//import { SupabaseSignIn, SupabaseSignInWithGoogle } from '@/lib/API/Services/supabase/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EmailFormSchema, EmailFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
@@ -35,8 +33,6 @@ export default function AuthForm() {
 
   const {
     register,
-    reset,
-    setError,
     formState: { isSubmitting }
   } = form;
 
@@ -58,13 +54,10 @@ export default function AuthForm() {
     const signInResult = await signIn('google');
 
     if (!signInResult?.ok) {
-      setError('email', {
-        type: '"root.serverError',
-        message: 'Something Went Wrong'
-      });
-
-      return;
+      toast.error('Something went wrong');
     }
+
+    router.push(config.redirects.authConfirm);
   };
 
   return (

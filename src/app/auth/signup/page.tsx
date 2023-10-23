@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { SupabaseSignUp, SupabaseSignInWithGoogle } from '@/lib/API/Services/supabase/auth';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { authFormSchema, authFormValues } from '@/lib/types/validations';
+import { EmailFormSchema, EmailFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
@@ -20,59 +19,46 @@ import {
 import Link from 'next/link';
 import config from '@/lib/config/auth';
 import { Icons } from '@/components/Icons';
+import { signIn } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 export default function AuthForm() {
-  const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
 
-  const form = useForm<authFormValues>({
-    resolver: zodResolver(authFormSchema),
+  const form = useForm<EmailFormValues>({
+    resolver: zodResolver(EmailFormSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: ''
     }
   });
 
   const {
     register,
-    reset,
-    setError,
     formState: { isSubmitting }
   } = form;
 
-  const onSubmit = async (values: authFormValues) => {
-    const { error } = await SupabaseSignUp(values.email, values.password);
+  const onSubmit = async (values: EmailFormValues) => {
+    const signInResult = await signIn('email', {
+      email: values.email.toLowerCase(),
+      redirect: false,
+      callbackUrl: config.redirects.toDashboard
+    });
 
-    if (error) {
-      reset({ email: values.email, password: '' });
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError', message: '' });
-
-      return;
+    if (!signInResult?.ok) {
+      toast.error('Something went wrong');
     }
-    router.push(config.redirects.callback);
+
+    router.push(config.redirects.authConfirm);
   };
 
   const handleGoogleSignIn = async () => {
-    const { error } = await SupabaseSignInWithGoogle();
+    const signInResult = await signIn('google');
 
-    if (error) {
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError' });
-      return;
+    if (!signInResult?.ok) {
+      toast.error('Something went wrong');
     }
-    router.push(config.redirects.callback);
-  };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+    router.push(config.redirects.authConfirm);
   };
 
   return (
@@ -95,42 +81,17 @@ export default function AuthForm() {
                     <FormMessage />
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...register('email')} placeholder="Email" {...field} className="bg-background-light dark:bg-background-dark"/>
+                      <Input
+                        {...register('email')}
+                        placeholder="Email"
+                        {...field}
+                        className="bg-background-light dark:bg-background-dark"
+                      />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          className="bg-background-light dark:bg-background-dark"
-                          {...register('password')}
-                          type={showPassword ? 'text' : 'password'}
-                          placeholder="Password"
-                          {...field}
-                        />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer">
-                          {showPassword ? (
-                            <Icons.EyeOffIcon
-                              className="h-6 w-6"
-                              onClick={togglePasswordVisibility}
-                            />
-                          ) : (
-                            <Icons.EyeIcon className="h-6 w-6" onClick={togglePasswordVisibility} />
-                          )}
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <Button className="w-full">
                 {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
                 <Icons.Lock className="mr-2 h-4 w-4" />
