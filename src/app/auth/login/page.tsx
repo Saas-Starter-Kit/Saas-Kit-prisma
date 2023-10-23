@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { SupabaseSignIn, SupabaseSignInWithGoogle } from '@/lib/API/Services/supabase/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EmailFormSchema, EmailFormValues } from '@/lib/types/validations';
+import { authFormSchema, authFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
@@ -16,48 +19,62 @@ import {
 } from '@/components/ui/Card';
 import Link from 'next/link';
 import { Icons } from '@/components/Icons';
-import { signIn } from 'next-auth/react';
-import { toast } from 'react-toastify';
 
 import config from '@/lib/config/auth';
-import { useRouter } from 'next/navigation';
 
 export default function AuthForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const form = useForm<EmailFormValues>({
-    resolver: zodResolver(EmailFormSchema),
+
+  const form = useForm<authFormValues>({
+    resolver: zodResolver(authFormSchema),
     defaultValues: {
-      email: ''
+      email: '',
+      password: ''
     }
   });
 
   const {
     register,
+    reset,
+    setError,
     formState: { isSubmitting }
   } = form;
 
-  const onSubmit = async (values: EmailFormValues) => {
-    const signInResult = await signIn('email', {
-      email: values.email.toLowerCase(),
-      redirect: false,
-      callbackUrl: config.redirects.toDashboard
-    });
+  const onSubmit = async (values: authFormValues) => {
+    const { error } = await SupabaseSignIn(values.email, values.password);
 
-    if (!signInResult?.ok) {
-      toast.error('Something went wrong');
+    if (error) {
+      reset({ email: values.email, password: '' });
+      setError('email', {
+        type: '"root.serverError',
+        message: error.message
+      });
+      setError('password', { type: 'root.serverError', message: '' });
+
+      return;
     }
 
-    router.push(config.redirects.authConfirm);
+    router.push(config.redirects.callback);
   };
 
   const handleGoogleSignIn = async () => {
-    const signInResult = await signIn('google');
+    const { error } = await SupabaseSignInWithGoogle();
 
-    if (!signInResult?.ok) {
-      toast.error('Something went wrong');
+    if (error) {
+      setError('email', {
+        type: '"root.serverError',
+        message: error.message
+      });
+      setError('password', { type: 'root.serverError' });
+      return;
     }
 
-    router.push(config.redirects.authConfirm);
+    router.push(config.redirects.callback);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -78,18 +95,47 @@ export default function AuthForm() {
                     <FormMessage />
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        {...register('email')}
-                        type="text"
-                        placeholder="Email"
-                        className="bg-background-light dark:bg-background-dark"
-                        {...field}
-                      />
+                      <Input {...register('email')} type="text" placeholder="Email" className="bg-background-light dark:bg-background-dark" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input 
+                          className="bg-background-light dark:bg-background-dark"
+                          {...register('password')}
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Password"
+                          {...field}
+                        />
+
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer">
+                          {showPassword ? (
+                            <Icons.EyeOffIcon
+                              className="h-6 w-6"
+                              onClick={togglePasswordVisibility}
+                            />
+                          ) : (
+                            <Icons.EyeIcon className="h-6 w-6" onClick={togglePasswordVisibility} />
+                          )}
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div>
+                <div className="mb-6 text-xs text-indigo-600 hover:text-indigo-500 underline">
+                  <Link href="/auth/forgot-password">Forgot your password?</Link>
+                </div>
                 <Button disabled={isSubmitting} className="w-full">
                   {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
                   <Icons.Mail className="mr-2 h-4 w-4" />
@@ -117,6 +163,14 @@ export default function AuthForm() {
 
         <CardFooter>
           <div className="flex flex-col">
+            <div className="text-left text-sm text-gray-500">
+              <Link
+                href="/auth/magic-link"
+                className="leading-7 text-indigo-600 hover:text-indigo-500"
+              >
+                Email me a login link
+              </Link>
+            </div>
             <div className="text-center text-sm text-gray-500">
               Not a member?{' '}
               <Link href="/auth/signup" className="leading-7 text-indigo-600 hover:text-indigo-500">
