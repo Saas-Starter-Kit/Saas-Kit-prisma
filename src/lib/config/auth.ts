@@ -5,21 +5,14 @@ const config = {
     },
     signup: {
       link: '/auth/signup'
-    },
-    forgotPassword: {
-      link: '/auth/forgot-password'
-    },
-    magiclink: {
-      link: '/auth/magic-link'
     }
   },
   redirects: {
     toDashboard: '/dashboard/main',
     toSubscription: '/dashboard/settings/subscription',
     toBilling: '/dashboard/settings/billing',
-    requireAuth: '/auth/auth-required',
-    authConfirm: '/auth/auth-confirm',
-    callback: '/api/auth-callback',
+    requireAuth: '/auth/required',
+    authConfirm: '/auth/confirm',
     toProfile: '/dashboard/settings/profile',
     requireSub: '/dashboard/settings/subscription-required',
     toAddSub: '/dashboard/settings/add-subscription'
