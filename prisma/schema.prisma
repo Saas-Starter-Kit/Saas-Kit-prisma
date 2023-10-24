@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// do not modify lucid defined columns, User, Session, Key. new columns can be added. 
+model Users {
+  id             String    @id @unique
+  email          String
+  auth_session   Sessions[]
+  key            Keys[]
+
+  //user custom defined fields
+  stripe_customer_id String? @unique @db.VarChar
+  display_name       String? @db.VarChar
+  subscription_id    String? @db.VarChar
+
+  todo         Todos[]
+  subscription Subscriptions? @relation(fields: [subscription_id], references: [id], onUpdate: NoAction)
+
+  @@map(name: "users")
+}
+
+model Sessions {
+  id             String @id @unique
+  user_id        String
+  active_expires BigInt
+  idle_expires   BigInt
+  user           Users   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map(name: "sessions")
+}
+
+model Keys {
+  id              String  @id @unique
+  hashed_password String?
+  user_id         String
+  user            Users    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map(name: "keys")
+}
+
+// custom defined models, can be modified.
+model Subscriptions {
+  id               String    @id @unique
+  price_id         String
+  status           String
+  created_at       DateTime? @db.Timestamp(6)
+  period_starts_at DateTime? @db.Timestamp(6)
+  period_ends_at   DateTime? @db.Timestamp(6)
+  user             Users[]
+
+  @@map(name: "subscriptions")
+}
+
+model Todos {
+  id          Int     @id @default(autoincrement())
+  title       String? @db.VarChar
+  description String? @db.VarChar
+  user_id     String?
+  author      String? @db.VarChar
+  user        Users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map(name: "todos")
+}

@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { SupabaseSignUp, SupabaseSignInWithGoogle } from '@/lib/API/Services/supabase/auth';
+
+import { SignUp } from '@/lib/API/Services/auth/user';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authFormSchema, authFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
@@ -20,6 +22,7 @@ import {
 import Link from 'next/link';
 import config from '@/lib/config/auth';
 import { Icons } from '@/components/Icons';
+import { AuthFormError } from '@/lib/utils/error';
 
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,33 +45,19 @@ export default function AuthForm() {
   } = form;
 
   const onSubmit = async (values: authFormValues) => {
-    const { error } = await SupabaseSignUp(values.email, values.password);
-
-    if (error) {
+    const props: authFormValues = { email: values.email, password: values.password };
+    try {
+      await SignUp(props);
+    } catch (err) {
       reset({ email: values.email, password: '' });
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError', message: '' });
-
-      return;
+      AuthFormError(err, setError);
     }
-    router.push(config.redirects.callback);
+
+    //router.push(config.redirects.callback);
   };
 
   const handleGoogleSignIn = async () => {
-    const { error } = await SupabaseSignInWithGoogle();
-
-    if (error) {
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError' });
-      return;
-    }
-    router.push(config.redirects.callback);
+    // available in pro version
   };
 
   const togglePasswordVisibility = () => {
@@ -95,7 +84,12 @@ export default function AuthForm() {
                     <FormMessage />
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...register('email')} placeholder="Email" {...field} className="bg-background-light dark:bg-background-dark"/>
+                      <Input
+                        {...register('email')}
+                        placeholder="Email"
+                        {...field}
+                        className="bg-background-light dark:bg-background-dark"
+                      />
                     </FormControl>
                   </FormItem>
                 )}

@@ -19,8 +19,10 @@ import {
 } from '@/components/ui/Card';
 import Link from 'next/link';
 import { Icons } from '@/components/Icons';
+import { Login } from '@/lib/API/Services/auth/session';
 
 import config from '@/lib/config/auth';
+import { AuthFormError } from '@/lib/utils/error';
 
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,35 +44,20 @@ export default function AuthForm() {
   } = form;
 
   const onSubmit = async (values: authFormValues) => {
-    const { error } = await SupabaseSignIn(values.email, values.password);
-
-    if (error) {
+    const props: authFormValues = { email: values.email, password: values.password };
+    try {
+      await Login(props);
+    } catch (err) {
       reset({ email: values.email, password: '' });
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError', message: '' });
-
-      return;
+      AuthFormError(err, setError);
     }
 
-    router.push(config.redirects.callback);
+    //handle redirect server side
+    //router.push(config.redirects.callback);
   };
 
   const handleGoogleSignIn = async () => {
-    const { error } = await SupabaseSignInWithGoogle();
-
-    if (error) {
-      setError('email', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      setError('password', { type: 'root.serverError' });
-      return;
-    }
-
-    router.push(config.redirects.callback);
+    //available in pro version
   };
 
   const togglePasswordVisibility = () => {
@@ -95,7 +82,13 @@ export default function AuthForm() {
                     <FormMessage />
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...register('email')} type="text" placeholder="Email" className="bg-background-light dark:bg-background-dark" {...field} />
+                      <Input
+                        {...register('email')}
+                        type="text"
+                        placeholder="Email"
+                        className="bg-background-light dark:bg-background-dark"
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -108,7 +101,7 @@ export default function AuthForm() {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input 
+                        <Input
                           className="bg-background-light dark:bg-background-dark"
                           {...register('password')}
                           type={showPassword ? 'text' : 'password'}
@@ -134,7 +127,7 @@ export default function AuthForm() {
               />
               <div>
                 <div className="mb-6 text-xs text-indigo-600 hover:text-indigo-500 underline">
-                  <Link href="/auth/forgot-password">Forgot your password?</Link>
+                  <div>Forgot your password?</div>
                 </div>
                 <Button disabled={isSubmitting} className="w-full">
                   {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
@@ -163,14 +156,6 @@ export default function AuthForm() {
 
         <CardFooter>
           <div className="flex flex-col">
-            <div className="text-left text-sm text-gray-500">
-              <Link
-                href="/auth/magic-link"
-                className="leading-7 text-indigo-600 hover:text-indigo-500"
-              >
-                Email me a login link
-              </Link>
-            </div>
             <div className="text-center text-sm text-gray-500">
               Not a member?{' '}
               <Link href="/auth/signup" className="leading-7 text-indigo-600 hover:text-indigo-500">
