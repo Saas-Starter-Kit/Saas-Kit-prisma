@@ -1,12 +1,12 @@
 import SideBar from './_PageSections/SideBar';
 import Header from './_PageSections/Header';
 import { LayoutProps } from '@/lib/types/types';
-import { getUser } from '@/lib/API/Services/auth/user';
+import { GetUser } from '@/lib/API/Database/user/queries';
 import config from '@/lib/config/auth';
 import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout({ children }: LayoutProps) {
-  const user = await getUser();
+  const user = await GetUser();
   if (!user) redirect(config.redirects.requireAuth);
 
   const display_name = user?.display_name;

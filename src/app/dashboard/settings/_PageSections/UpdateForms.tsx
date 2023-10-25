@@ -17,8 +17,6 @@ import { toast } from 'react-toastify';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { SupabaseProfileUpdate } from '@/lib/API/Database/profile/mutations';
-import { SupabaseUpdateEmail, SupabaseUpdatePassword } from '@/lib/API/Services/supabase/auth';
 
 import {
   DisplayNameFormValues,
@@ -30,14 +28,17 @@ import {
 } from '@/lib/types/validations';
 
 import { UpdateStripeCustomerEmail } from '@/lib/API/Services/stripe/customer';
-import { User } from '@supabase/supabase-js';
 
+import {
+  UpdateUserName,
+  UpdateUserEmail,
+  UpdateUserPassword
+} from '@/lib/API/Database/user/mutations';
 interface UpdateDisplayNamePropsI {
   display_name: string;
-  user: User;
 }
 
-export const UpdateDisplayName = ({ display_name, user }: UpdateDisplayNamePropsI) => {
+export const UpdateDisplayName = ({ display_name }: UpdateDisplayNamePropsI) => {
   const form = useForm<DisplayNameFormValues>({
     resolver: zodResolver(DisplayNameFormSchema),
     defaultValues: {
@@ -52,18 +53,18 @@ export const UpdateDisplayName = ({ display_name, user }: UpdateDisplayNameProps
   } = form;
 
   const handleSubmit = async (data: DisplayNameFormValues) => {
-    const id = user.id;
     const display_name = data.display_name;
 
-    const props = { id, display_name };
-    const { error } = await SupabaseProfileUpdate(props);
+    const props = { display_name };
 
-    if (error) {
+    try {
+      await UpdateUserName(props);
+    } catch (err) {
       setError('display_name', {
         type: '"root.serverError',
-        message: error.message
+        message: 'Something went wrong'
       });
-      return;
+      throw err;
     }
 
     toast.success('Update Completed');
@@ -81,7 +82,12 @@ export const UpdateDisplayName = ({ display_name, user }: UpdateDisplayNameProps
                 <FormMessage className="py-2" />
                 <FormLabel>Display Name</FormLabel>
                 <FormControl>
-                  <Input {...register('display_name')} className="bg-background-light dark:bg-background-dark" type="text" {...field} />
+                  <Input
+                    {...register('display_name')}
+                    className="bg-background-light dark:bg-background-dark"
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>This is your public display name.</FormDescription>
               </FormItem>
@@ -118,14 +124,16 @@ export const UpdateEmail = ({ email, customer }: UpdateEmailPropsI) => {
 
   const handleSubmit = async (data: EmailFormValues) => {
     const email = data.email;
-    const { error } = await SupabaseUpdateEmail(email);
+    const props = { email };
 
-    if (error) {
+    try {
+      await UpdateUserEmail(props);
+    } catch (err) {
       setError('email', {
         type: '"root.serverError',
-        message: error.message
+        message: 'Something went wrong'
       });
-      return;
+      throw err;
     }
 
     try {
@@ -150,7 +158,12 @@ export const UpdateEmail = ({ email, customer }: UpdateEmailPropsI) => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...register('email')} className="bg-background-light dark:bg-background-dark" type="text" {...field} />
+                  <Input
+                    {...register('email')}
+                    className="bg-background-light dark:bg-background-dark"
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>This is the email associated with your account</FormDescription>
                 <FormMessage />
@@ -182,14 +195,17 @@ export const UpdatePassword = () => {
   } = form;
 
   const handleSubmit = async (data: UpdatePasswordFormValues) => {
-    const { error } = await SupabaseUpdatePassword(data.password);
+    const password = data.password;
+    const props = { password };
 
-    if (error) {
+    try {
+      await UpdateUserPassword(props);
+    } catch (err) {
       setError('password', {
         type: '"root.serverError',
-        message: error.message
+        message: 'Something went wrong'
       });
-      return;
+      throw err;
     }
 
     toast.success('Update Completed');
@@ -206,7 +222,12 @@ export const UpdatePassword = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...register('password')} className="bg-background-light dark:bg-background-dark" type="text" {...field} />
+                  <Input
+                    {...register('password')}
+                    className="bg-background-light dark:bg-background-dark"
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>Update Account Password</FormDescription>
                 <FormMessage />

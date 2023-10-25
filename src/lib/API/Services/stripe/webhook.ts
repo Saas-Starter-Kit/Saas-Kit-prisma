@@ -1,8 +1,9 @@
 import 'server-only';
-import { SupabaseRouteHandler as supabase } from '@/lib/API/Services/init/supabase/SupabaseRouteHandler';
 import Stripe from 'stripe';
 import { RetrieveSubscription } from './customer';
 import { StripeEvent } from '@/lib/types/stripe';
+import { UpdateUserSubscription } from '../../Database/user/mutations';
+import { CreateSubscription, UpdateSubscription } from '../../Database/subscription/mutations';
 
 const subscriptionStatusActive = { trailing: 'trailing', active: 'active' };
 const subscriptionStatusVoid = {
@@ -23,8 +24,6 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
     case WebhookEvents.checkout_session_completed:
       const session = event.data.object;
 
-      const user_db_id = session.metadata.user_id;
-
       const subscription: Stripe.Subscription = await RetrieveSubscription(session.subscription);
 
       const stripe_customer_id = subscription.customer as string;
@@ -34,31 +33,25 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
         id: subscription.id,
         price_id: subscription.items.data[0].price.id,
         status: statusSub,
-        created_at: new Date(Date.now()).toString(),
-        period_starts_at: new Date(subscription.current_period_start * 1000).toString(),
-        period_ends_at: new Date(subscription.current_period_end * 1000).toString()
+        created_at: new Date(Date.now()),
+        period_starts_at: new Date(subscription.current_period_start * 1000),
+        period_ends_at: new Date(subscription.current_period_end * 1000)
       };
 
-      const subscriptionRes = await supabase().from('subscriptions').insert(dataSub);
-      if (subscriptionRes?.error) throw subscriptionRes.error;
+      await CreateSubscription(dataSub);
 
       const dataUser = {
         stripe_customer_id,
         subscription_id: subscription.id
       };
 
-      const profileRes = await supabase().from('profiles').update(dataUser).eq('id', user_db_id);
-      if (profileRes?.error) throw profileRes.error;
+      await UpdateUserSubscription(dataUser);
 
       console.log('Stripe Customer Successfully Created');
       break;
     case WebhookEvents.subscription_updated:
-      // refator for simplicity
-      // wat does previous_attributes look like for price update
-
       const subscriptionUpdate = event.data.object;
       const UpdatedCols = Object.keys(event.data.previous_attributes);
-
       const validColumns = [
         'price_id',
         'status',
@@ -66,35 +59,25 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
         'period_starts_at',
         'period_ends_at'
       ];
-
       const validUpdatedCols = UpdatedCols.filter((element) => validColumns.includes(element));
-
       let dataUpdate = {};
-      validUpdatedCols.map((item) => {
+
+      validUpdatedCols.forEach((item) => {
         dataUpdate[item] = subscriptionUpdate[item];
       });
 
-      let status;
       if (UpdatedCols.includes('status')) {
         const validStatus = [
           ...Object.keys(subscriptionStatusActive),
           ...Object.keys(subscriptionStatusVoid)
         ];
-
         if (validStatus.includes(subscriptionUpdate.status)) {
-          status = subscriptionUpdate.status;
+          dataUpdate['status'] = subscriptionUpdate.status;
         }
       }
 
-      if (status) dataUpdate['status'] = status;
-
       if (Object.keys(dataUpdate).length !== 0) {
-        const { error } = await supabase()
-          .from('subscriptions')
-          .update(dataUpdate)
-          .eq('id', subscriptionUpdate.id);
-
-        if (error) throw error;
+        await UpdateSubscription(dataUpdate);
       }
 
       break;
@@ -108,7 +91,7 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
 
 Webhook triggers can be triggered by stripe CLI to similate webhook events. Copy and paste into terminal.
 
-stripe.exe trigger checkout.session.completed --add checkout_session:metadata.user_id={REPLACE WITH A SUPABASE USER ID}
+stripe.exe trigger checkout.session.completed --add checkout_session:metadata.user_id={REPLACE WITH A USER ID}
 
 stripe.exe trigger customer.subscription.updated
 

@@ -13,18 +13,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/DropdownMenu';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { SupabaseSignOut } from '@/lib/API/Services/supabase/auth';
 import { Icons } from '@/components/Icons';
 import { useTheme } from 'next-themes';
 import { Logout } from '@/lib/API/Services/auth/session';
 
 export function UserNav({ email, display_name, avatar_url }) {
-  const router = useRouter();
   const { setTheme } = useTheme();
 
   const signOut = async () => {
-    //await Logout();
+    await Logout();
   };
 
   return (

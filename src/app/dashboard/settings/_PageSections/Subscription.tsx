@@ -16,13 +16,16 @@ import configuration from '@/lib/config/dashboard';
 import { PlanI } from '@/lib/types/types';
 import config from '@/lib/config/auth';
 import { ErrorText } from '@/components/ErrorText';
+import { Subscriptions } from '@prisma/client';
+
 interface SubscriptionExistsProps {
-  price_id: string;
-  status: string;
-  period_ends: string;
+  subscription: Subscriptions;
 }
 
-const SubscriptionExists = ({ price_id, status, period_ends }: SubscriptionExistsProps) => {
+const SubscriptionExists = ({ subscription }: SubscriptionExistsProps) => {
+  const { price_id, period_ends_at, status } = subscription;
+
+  const router = useRouter();
   const { products } = configuration;
   const [errorMessage, setErrorMessage] = useState('');
   const [currentPlan, setPlan] = useState<PlanI>({ name: '' });
@@ -43,8 +46,6 @@ const SubscriptionExists = ({ price_id, status, period_ends }: SubscriptionExist
   useEffect(() => {
     matchSubscription();
   }, []);
-
-  const router = useRouter();
 
   const goToPortal = async () => {
     router.push(config.redirects.toBilling);
@@ -75,7 +76,7 @@ const SubscriptionExists = ({ price_id, status, period_ends }: SubscriptionExist
           </div>
           <div>
             Billing Period Ends:{' '}
-            <span className="font-bold">{new Date(period_ends).toLocaleDateString()}</span>
+            <span className="font-bold">{new Date(period_ends_at).toLocaleDateString()}</span>
           </div>
         </CardContent>
         <CardFooter>

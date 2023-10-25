@@ -1,12 +1,9 @@
-import { SupabaseUser } from '@/lib/API/Services/supabase/user';
-import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
-
 import { Card, CardHeader, CardDescription, CardContent, CardTitle } from '@/components/ui/Card';
 import { UpdateDisplayName, UpdateEmail, UpdatePassword } from '../_PageSections/UpdateForms';
-import { getUser } from '@/lib/API/Services/auth/user';
+import { GetUser } from '@/lib/API/Database/user/queries';
 
 export default async function ProfileForm() {
-  const user = await getUser();
+  const user = await GetUser();
 
   const display_name = user?.display_name || '';
   const customer = user?.stripe_customer_id || '';
@@ -20,7 +17,7 @@ export default async function ProfileForm() {
           <CardDescription>Update Account display name, email and password</CardDescription>
         </CardHeader>
         <CardContent>
-          <UpdateDisplayName display_name={display_name} user={user} />
+          <UpdateDisplayName display_name={display_name} />
           <UpdateEmail email={email} customer={customer} />
           <UpdatePassword />
         </CardContent>

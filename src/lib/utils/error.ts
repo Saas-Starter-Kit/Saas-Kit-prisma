@@ -1,5 +1,3 @@
-import { AuthError, PostgrestError } from '@supabase/supabase-js';
-import { AxiosError } from 'axios';
 import { LuciaError } from 'lucia';
 import Stripe from 'stripe';
 import { UseFormSetError } from 'react-hook-form';
@@ -62,20 +60,6 @@ export const AuthFormError = (err: LuciaError, setError: UseFormSetError<authFor
 };
 
 export const LuciaAuthError = (err: LuciaError) => {
-  if (err) {
-    console.log(err);
-    throw err;
-  }
-};
-
-export const SupabaseAuthError = (err: AuthError) => {
-  if (err) {
-    console.log(err);
-    throw err;
-  }
-};
-
-export const SupabaseDBError = (err: PostgrestError) => {
   if (err) {
     console.log(err);
     throw err;

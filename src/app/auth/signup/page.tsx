@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { SignUp } from '@/lib/API/Services/auth/user';
+import { SignUp } from '@/lib/API/Database/user/queries';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { authFormSchema, authFormValues } from '@/lib/types/validations';

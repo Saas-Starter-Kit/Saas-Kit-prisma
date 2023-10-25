@@ -6,7 +6,7 @@ import prismaClient from './prisma';
 
 const env = process.env.NODE_ENV === 'production' ? 'PROD' : 'DEV';
 
-const getUserAttributes = (data: UserSchema) => {
+const GetUserAttributes = (data: UserSchema) => {
   return {
     email: data.email,
     stripe_customer_id: data.stripe_customer_id,
@@ -26,7 +26,7 @@ const configuration: Configuration = {
     session: 'sessions',
     key: 'keys'
   }),
-  getUserAttributes
+  GetUserAttributes
 };
 
 const auth: Auth<Configuration> = lucia(configuration);

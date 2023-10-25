@@ -1,7 +1,7 @@
 'use server';
 
-import prisma, { Prisma } from '../../Init/prisma';
-import { getUser } from '../../Services/auth/user';
+import prisma, { Prisma } from '../../Services/init/prisma';
+import { GetUser } from '@/lib/API/Database/user/queries';
 import { PrismaDBError } from '@/lib/utils/error';
 import { todoFormValues } from '@/lib/types/validations';
 
@@ -14,7 +14,7 @@ interface DeleteTodoPropsI {
 }
 
 export const CreateTodo = async ({ title, description }: todoFormValues) => {
-  const user = await getUser();
+  const user = await GetUser();
 
   const user_id = user?.userId;
   const author = user?.display_name || '';

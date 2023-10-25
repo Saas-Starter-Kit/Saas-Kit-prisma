@@ -1,6 +1,6 @@
 'use server';
 
-import auth from '../../Init/lucia';
+import auth from '../init/lucia';
 import { Key, LuciaError, Session, User } from 'lucia';
 import { authFormValues } from '@/lib/types/validations';
 import { HttpMethodsE } from '@/lib/types/enums';
