@@ -20,7 +20,6 @@ import {
   CardTitle
 } from '@/components/ui/Card';
 import Link from 'next/link';
-import config from '@/lib/config/auth';
 import { Icons } from '@/components/Icons';
 import { AuthFormError } from '@/lib/utils/error';
 
@@ -52,8 +51,6 @@ export default function AuthForm() {
       reset({ email: values.email, password: '' });
       AuthFormError(err, setError);
     }
-
-    //router.push(config.redirects.callback);
   };
 
   const handleGoogleSignIn = async () => {

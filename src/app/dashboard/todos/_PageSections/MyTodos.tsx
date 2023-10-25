@@ -1,30 +1,43 @@
 'use client';
 
 import { Card, CardDescription, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { DeleteTodo } from '@/lib/API/Database/todos/Browser/mutations';
+import { DeleteTodo } from '@/lib/API/DatabasePrisma/todos/mutations';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/helpers';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { TodoT, TodosListT } from '@/lib/types/todos';
+import config from '@/lib/config/api';
+import { Todos } from '@prisma/client';
 
-const TodoCard = ({ id, title, description }: TodoT) => {
+interface TodoCardProps {
+  todo: Todos;
+}
+
+interface MyTodosProps {
+  todos: Todos[];
+}
+
+const TodoCard = ({ todo }: TodoCardProps) => {
   const router = useRouter();
 
-  const Delete = async () => {
-    const { error } = await DeleteTodo(id);
+  const { id, title, description } = todo;
 
-    if (error) {
-      toast.error('Something Went Wrong, please try again');
-      return;
+  const Delete = async () => {
+    const todo_id = Number(id);
+    try {
+      await DeleteTodo({ id: todo_id });
+    } catch (err) {
+      toast.error(config.errorMessageGeneral);
+      throw err;
     }
+
     toast.success('Todo Deleted');
     router.refresh();
   };
 
   return (
-    <Card className="bg-background-light dark:bg-background-dark">
+    <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -44,11 +57,11 @@ const TodoCard = ({ id, title, description }: TodoT) => {
   );
 };
 
-const MyTodos = ({ todos }: TodosListT) => {
+const MyTodos = ({ todos }: MyTodosProps) => {
   return (
     <div>
       {todos.map((todo) => (
-        <TodoCard key={todo.id} id={todo.id} title={todo.title} description={todo.description} />
+        <TodoCard key={todo.id} todo={todo} />
       ))}
     </div>
   );

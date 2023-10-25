@@ -3,11 +3,11 @@ import { SupabaseUser } from '@/lib/API/Services/supabase/user';
 import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
 import { redirect } from 'next/navigation';
 import config from '@/lib/config/auth';
+import { getUser } from '@/lib/API/Services/auth/user';
 
 export default async function Billing() {
-  const user = await SupabaseUser();
-  const profile = await GetProfileByUserId(user.id);
-  const subscription = profile?.data?.[0]?.subscription_id;
+  const user = await getUser();
+  const subscription = user?.subscription_id;
 
   if (!subscription) redirect(config.redirects.requireSub);
 

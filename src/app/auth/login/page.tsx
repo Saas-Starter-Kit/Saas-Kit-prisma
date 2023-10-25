@@ -21,12 +21,10 @@ import Link from 'next/link';
 import { Icons } from '@/components/Icons';
 import { Login } from '@/lib/API/Services/auth/session';
 
-import config from '@/lib/config/auth';
 import { AuthFormError } from '@/lib/utils/error';
 
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
 
   const form = useForm<authFormValues>({
     resolver: zodResolver(authFormSchema),
@@ -51,9 +49,6 @@ export default function AuthForm() {
       reset({ email: values.email, password: '' });
       AuthFormError(err, setError);
     }
-
-    //handle redirect server side
-    //router.push(config.redirects.callback);
   };
 
   const handleGoogleSignIn = async () => {

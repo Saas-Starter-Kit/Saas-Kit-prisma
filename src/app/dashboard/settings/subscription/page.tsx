@@ -7,18 +7,19 @@ import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { SubscriptionT } from '@/lib/types/supabase';
 import { redirect } from 'next/navigation';
 import config from '@/lib/config/auth';
+import { getUser } from '@/lib/API/Services/auth/user';
+import { UserSchema } from 'lucia';
+import { escape } from 'cypress/types/lodash';
 
 export default async function Subscription() {
-  const user = await SupabaseUser();
+  const user = await getUser();
 
-  const profile = await GetProfileByUserId(user?.id);
-  const subscription_id = profile?.data?.[0]?.subscription_id;
-
-  if (!subscription_id) redirect(config.redirects.toAddSub);
-
-  let subscription: PostgrestSingleResponse<SubscriptionT[]>;
-  if (profile?.data?.[0]?.subscription_id) {
-    subscription = await GetSubscriptionById(profile?.data?.[0]?.subscription_id);
+  let subscription;
+  const subscription_id = user?.subscription_id;
+  if (!subscription_id) {
+    redirect(config.redirects.toAddSub);
+  } else {
+    subscription = await GetSubscriptionById(user?.subscription_id);
   }
 
   const price_id = subscription?.data[0]?.price_id;

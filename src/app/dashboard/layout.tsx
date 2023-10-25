@@ -1,29 +1,18 @@
 import SideBar from './_PageSections/SideBar';
 import Header from './_PageSections/Header';
-import { SupabaseSession } from '@/lib/API/Services/supabase/user';
-import { GetProfileByUserId } from '@/lib/API/Database/profile/queries';
-import { redirect } from 'next/navigation';
-import config from '@/lib/config/auth';
-import { ProfileT } from '@/lib/types/supabase';
-import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { LayoutProps } from '@/lib/types/types';
+import { getUser } from '@/lib/API/Services/auth/user';
+import config from '@/lib/config/auth';
+import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout({ children }: LayoutProps) {
-  const { data, error } = await SupabaseSession();
+  const user = await getUser();
+  if (!user) redirect(config.redirects.requireAuth);
 
-  // Auth Guard
-  if (error || !data?.session) {
-    redirect(config.redirects.requireAuth);
-  }
+  const display_name = user?.display_name;
+  const email = user?.email;
 
-  let profile: PostgrestSingleResponse<ProfileT[]>;
-  if (data?.session?.user) {
-    profile = await GetProfileByUserId(data.session.user.id);
-  }
-
-  const display_name = data[0]?.display_name;
-  const email = data?.session?.user?.email;
-  const avatar_url = data?.session?.user?.user_metadata?.avatar_url;
+  const avatar_url = '';
 
   return (
     <main className="grid md:grid-cols-[auto_1fr]">

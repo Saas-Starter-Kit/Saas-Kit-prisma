@@ -1,12 +1,14 @@
 'use server';
 import * as context from 'next/headers';
 import auth from '@/lib/API/Init/lucia';
-import { CreateSession } from './session';
-import { User } from 'lucia';
+import { CreateSession, getSession } from './session';
+import { User, UserSchema } from 'lucia';
 import { LuciaError, Session } from 'lucia';
 import { LuciaAuthError, PrismaDBError } from '@/lib/utils/error';
 import { authFormValues } from '@/lib/types/validations';
 import { HttpMethodsE } from '@/lib/types/enums';
+import { redirect } from 'next/navigation';
+import config from '@/lib/config/auth';
 
 export const SignUp = async ({ email, password }: authFormValues) => {
   let user: User;
@@ -44,4 +46,10 @@ export const SignUp = async ({ email, password }: authFormValues) => {
 
   const authRequest = auth.handleRequest(HttpMethodsE.POST, context);
   authRequest.setSession(session);
+  redirect(config.redirects.toAddSub);
+};
+
+export const getUser = async () => {
+  const session = await getSession();
+  return session?.user;
 };

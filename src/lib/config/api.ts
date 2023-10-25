@@ -1,9 +1,5 @@
 const config = {
-  errorMessageGeneral: 'Something Went Wrong',
-  swrKeys: {
-    getMyTodos: 'GetMyTodos',
-    getAllTodos: 'GetAllTodos'
-  }
+  errorMessageGeneral: 'Something Went Wrong'
 };
 
 export default config;

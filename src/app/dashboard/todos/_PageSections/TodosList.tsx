@@ -1,9 +1,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
-import { TodosListT, TodoT } from '@/lib/types/todos';
+import { Todos } from '@prisma/client';
 
-const TodoCard = ({ title, description, author }: TodoT) => {
+interface TodoCardProps {
+  todo: Todos;
+}
+
+interface MyTodosProps {
+  todos: Todos[];
+}
+
+const TodoCard = ({ todo }: TodoCardProps) => {
+  const { title, description, author } = todo;
   return (
-    <Card className="my-4 bg-background-light dark:bg-background-dark">
+    <Card className="my-4">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -15,16 +24,11 @@ const TodoCard = ({ title, description, author }: TodoT) => {
   );
 };
 
-const TodosList = ({ todos }: TodosListT) => {
+const TodosList = ({ todos }: MyTodosProps) => {
   return (
     <div>
       {todos.map((todo) => (
-        <TodoCard
-          key={todo.title}
-          title={todo.title}
-          author={todo.author}
-          description={todo.description}
-        />
+        <TodoCard key={todo.id} todo={todo} />
       ))}
     </div>
   );

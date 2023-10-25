@@ -22,7 +22,8 @@ const config = {
     callback: '/api/auth-callback',
     toProfile: '/dashboard/settings/profile',
     requireSub: '/dashboard/settings/subscription-required',
-    toAddSub: '/dashboard/settings/add-subscription'
+    toAddSub: '/dashboard/settings/add-subscription',
+    toMyTodos: '/dashboard/todos/my-todos'
   }
 };
 

@@ -1,4 +1,4 @@
-import 'server-only';
+//import 'server-only';
 import { UserSchema, lucia, Auth, Configuration } from 'lucia';
 import { nextjs_future } from 'lucia/middleware';
 import { prisma } from '@lucia-auth/adapter-prisma';

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { todoFormSchema, todoFormValues } from '@/lib/types/validations';
@@ -12,17 +12,18 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Icons } from '@/components/Icons';
-import { UpdateTodo } from '@/lib/API/Database/todos/Browser/mutations';
+import { UpdateTodo } from '@/lib/API/DatabasePrisma/todos/mutations';
 import { toast } from 'react-toastify';
-import { TodoT } from '@/lib/types/todos';
+import { Todos } from '@prisma/client';
+import config from '@/lib/config/api';
+import configuration from '@/lib/config/auth';
 
 interface EditFormProps {
-  todo: TodoT;
+  todo: Todos;
 }
 
 export default function TodosEditForm({ todo }: EditFormProps) {
   const router = useRouter();
-
   const { title, description, id } = todo;
 
   const form = useForm<todoFormValues>({
@@ -36,28 +37,27 @@ export default function TodosEditForm({ todo }: EditFormProps) {
   const {
     register,
     reset,
-    setError,
     formState: { isSubmitting, isSubmitted }
   } = form;
 
   const onSubmit = async (values: todoFormValues) => {
     const title = values.title;
     const description = values.description;
+    const todo_id = Number(id);
 
-    const { error } = await UpdateTodo(id, title, description);
+    const props = { id: todo_id, title, description };
 
-    if (error) {
-      setError('title', {
-        type: '"root.serverError',
-        message: error.message
-      });
-      return;
+    try {
+      await UpdateTodo(props);
+    } catch (err) {
+      toast.error(config.errorMessageGeneral);
+      throw err;
     }
 
     reset({ title: '', description: '' });
     toast.success('Todo Updated');
     router.refresh();
-    router.push('/dashboard/todos/my-todos');
+    router.push(configuration.redirects.toMyTodos);
   };
 
   return (
@@ -79,7 +79,11 @@ export default function TodosEditForm({ todo }: EditFormProps) {
                     <FormMessage />
                     <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input {...register('title')} className="bg-background-light dark:bg-background-dark" {...field} />
+                      <Input
+                        {...register('title')}
+                        className="bg-background-light dark:bg-background-dark"
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -91,7 +95,10 @@ export default function TodosEditForm({ todo }: EditFormProps) {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea {...field} className="bg-background-light dark:bg-background-dark"/>
+                      <Textarea
+                        className="bg-background-light dark:bg-background-dark"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
