@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { todoFormSchema, todoFormValues } from '@/lib/types/validations';
@@ -12,14 +11,14 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Icons } from '@/components/Icons';
-import { UpdateTodo } from '@/lib/API/DatabasePrisma/todos/mutations';
+import { UpdateTodo } from '@/lib/API/Database/todos/mutations';
 import { toast } from 'react-toastify';
-import { Todos } from '@prisma/client';
+import { Todo } from '@prisma/client';
 import config from '@/lib/config/api';
 import configuration from '@/lib/config/auth';
 
 interface EditFormProps {
-  todo: Todos;
+  todo: Todo;
 }
 
 export default function TodosEditForm({ todo }: EditFormProps) {

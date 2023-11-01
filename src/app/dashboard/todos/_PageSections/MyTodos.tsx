@@ -1,21 +1,21 @@
 'use client';
 
 import { Card, CardDescription, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { DeleteTodo } from '@/lib/API/DatabasePrisma/todos/mutations';
+import { DeleteTodo } from '@/lib/API/Database/todos/mutations';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/helpers';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import config from '@/lib/config/api';
-import { Todos } from '@prisma/client';
+import { Todo } from '@prisma/client';
 
 interface TodoCardProps {
-  todo: Todos;
+  todo: Todo;
 }
 
 interface MyTodosProps {
-  todos: Todos[];
+  todos: Todo[];
 }
 
 const TodoCard = ({ todo }: TodoCardProps) => {

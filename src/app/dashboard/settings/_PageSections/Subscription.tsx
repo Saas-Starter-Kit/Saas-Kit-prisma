@@ -16,10 +16,10 @@ import configuration from '@/lib/config/dashboard';
 import { PlanI } from '@/lib/types/types';
 import config from '@/lib/config/auth';
 import { ErrorText } from '@/components/ErrorText';
-import { Subscriptions } from '@prisma/client';
+import { Subscription } from '@prisma/client';
 
 interface SubscriptionExistsProps {
-  subscription: Subscriptions;
+  subscription: Subscription;
 }
 
 const SubscriptionExists = ({ subscription }: SubscriptionExistsProps) => {

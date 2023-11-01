@@ -26,6 +26,7 @@ import {
 } from '@/lib/types/validations';
 
 import { UpdateStripeCustomerEmail } from '@/lib/API/Services/stripe/customer';
+import { useRouter } from 'next/navigation';
 
 import { UpdateUserName, UpdateUserEmail } from '@/lib/API/Database/user/mutations';
 interface UpdateDisplayNamePropsI {
@@ -33,6 +34,8 @@ interface UpdateDisplayNamePropsI {
 }
 
 export const UpdateDisplayName = ({ display_name }: UpdateDisplayNamePropsI) => {
+  const router = useRouter();
+
   const form = useForm<DisplayNameFormValues>({
     resolver: zodResolver(DisplayNameFormSchema),
     defaultValues: {
@@ -61,6 +64,7 @@ export const UpdateDisplayName = ({ display_name }: UpdateDisplayNamePropsI) => 
       throw err;
     }
 
+    router.refresh();
     toast.success('Update Completed');
   };
 
@@ -103,6 +107,8 @@ interface UpdateEmailPropsI {
 }
 
 export const UpdateEmail = ({ email, customer }: UpdateEmailPropsI) => {
+  const router = useRouter();
+
   const form = useForm<EmailFormValues>({
     resolver: zodResolver(EmailFormSchema),
     defaultValues: {
@@ -138,6 +144,7 @@ export const UpdateEmail = ({ email, customer }: UpdateEmailPropsI) => {
       throw e;
     }
 
+    router.refresh();
     toast.success('Update Email Sent, confirm email to complete Update');
   };
 
