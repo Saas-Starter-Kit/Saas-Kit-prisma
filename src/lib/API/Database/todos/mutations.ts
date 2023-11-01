@@ -18,7 +18,7 @@ export const CreateTodo = async ({ title, description }: todoFormValues) => {
 
   const user_id = user?.userId;
   const author = user?.display_name || '';
-  const data: Prisma.TodosCreateInput = {
+  const data: Prisma.TodoCreateInput = {
     title,
     description,
     author,
@@ -26,20 +26,20 @@ export const CreateTodo = async ({ title, description }: todoFormValues) => {
   };
 
   try {
-    await prisma.todos.create({ data });
+    await prisma.todo.create({ data });
   } catch (err) {
     PrismaDBError(err);
   }
 };
 
 export const UpdateTodo = async ({ id, title, description }: UpdateTodoPropsI) => {
-  const data: Prisma.TodosUpdateInput = {
+  const data: Prisma.TodoUpdateInput = {
     title,
     description
   };
 
   try {
-    await prisma.todos.update({
+    await prisma.todo.update({
       where: {
         id
       },
@@ -52,7 +52,7 @@ export const UpdateTodo = async ({ id, title, description }: UpdateTodoPropsI) =
 
 export const DeleteTodo = async ({ id }: DeleteTodoPropsI) => {
   try {
-    await prisma.todos.delete({
+    await prisma.todo.delete({
       where: {
         id
       }

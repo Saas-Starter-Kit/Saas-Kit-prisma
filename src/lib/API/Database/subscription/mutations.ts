@@ -3,7 +3,7 @@
 import prisma, { Prisma } from '../../Services/init/prisma';
 import { GetUser } from '@/lib/API/DataBase/user/queries';
 import { PrismaDBError } from '@/lib/utils/error';
-import { Subscriptions } from '@prisma/client';
+import { Subscription } from '@prisma/client';
 
 export const CreateSubscription = async ({
   id,
@@ -12,11 +12,11 @@ export const CreateSubscription = async ({
   created_at,
   period_starts_at,
   period_ends_at
-}: Subscriptions) => {
+}: Subscription) => {
   const user = await GetUser();
-  const user_id = user?.userId;
+  const user_id = user?.id;
 
-  const data: Prisma.SubscriptionsCreateInput = {
+  const data: Prisma.SubscriptionCreateInput = {
     id,
     price_id,
     status,
@@ -27,7 +27,7 @@ export const CreateSubscription = async ({
   };
 
   try {
-    await prisma.subscriptions.create({ data });
+    await prisma.subscription.create({ data });
   } catch (err) {
     PrismaDBError(err);
   }
@@ -40,8 +40,8 @@ export const UpdateSubscription = async ({
   created_at,
   period_starts_at,
   period_ends_at
-}: Partial<Subscriptions>) => {
-  const data: Prisma.SubscriptionsUpdateInput = {
+}: Partial<Subscription>) => {
+  const data: Prisma.SubscriptionUpdateInput = {
     price_id,
     status,
     created_at,
@@ -50,7 +50,7 @@ export const UpdateSubscription = async ({
   };
 
   try {
-    await prisma.subscriptions.update({
+    await prisma.subscription.update({
       where: {
         id
       },

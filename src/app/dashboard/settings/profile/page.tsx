@@ -5,6 +5,8 @@ import { GetUser } from '@/lib/API/Database/user/queries';
 export default async function ProfileForm() {
   const user = await GetUser();
 
+  console.log(user);
+
   const display_name = user?.display_name || '';
   const customer = user?.stripe_customer_id || '';
   const email = user?.email;

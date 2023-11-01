@@ -3,11 +3,8 @@ module.exports = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'tailwindui.com',
-      },
-    ],
-  },
-  experimental: {
-    serverActions: true
+        hostname: 'tailwindui.com'
+      }
+    ]
   }
 };

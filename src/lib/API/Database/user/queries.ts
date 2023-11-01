@@ -1,8 +1,7 @@
-import { GetSession } from '@/lib/API/Services/auth/session';
+import { auth } from '../../Services/auth/auth';
 
 export const GetUser = async () => {
-  const session = await GetSession();
+  const session = await auth();
+
   return session?.user;
 };
-
-export const 

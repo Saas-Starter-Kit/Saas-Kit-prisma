@@ -3,10 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { SignUp } from '@/lib/API/Database/user/queries';
-
 import { zodResolver } from '@hookform/resolvers/zod';
-import { authFormSchema, authFormValues } from '@/lib/types/validations';
+import { EmailFormSchema, EmailFormValues } from '@/lib/types/validations';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form';
@@ -24,15 +22,12 @@ import { Icons } from '@/components/Icons';
 import { AuthFormError } from '@/lib/utils/error';
 
 export default function AuthForm() {
-  const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
 
-  const form = useForm<authFormValues>({
-    resolver: zodResolver(authFormSchema),
+  const form = useForm<EmailFormValues>({
+    resolver: zodResolver(EmailFormSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: ''
     }
   });
 
@@ -43,22 +38,18 @@ export default function AuthForm() {
     formState: { isSubmitting }
   } = form;
 
-  const onSubmit = async (values: authFormValues) => {
-    const props: authFormValues = { email: values.email, password: values.password };
+  const onSubmit = async (values: EmailFormValues) => {
+    const props: EmailFormValues = { email: values.email };
     try {
-      await SignUp(props);
+      //
     } catch (err) {
-      reset({ email: values.email, password: '' });
+      reset({ email: values.email });
       AuthFormError(err, setError);
     }
   };
 
   const handleGoogleSignIn = async () => {
     // available in pro version
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -91,37 +82,7 @@ export default function AuthForm() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          className="bg-background-light dark:bg-background-dark"
-                          {...register('password')}
-                          type={showPassword ? 'text' : 'password'}
-                          placeholder="Password"
-                          {...field}
-                        />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer">
-                          {showPassword ? (
-                            <Icons.EyeOffIcon
-                              className="h-6 w-6"
-                              onClick={togglePasswordVisibility}
-                            />
-                          ) : (
-                            <Icons.EyeIcon className="h-6 w-6" onClick={togglePasswordVisibility} />
-                          )}
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <Button className="w-full">
                 {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
                 <Icons.Lock className="mr-2 h-4 w-4" />

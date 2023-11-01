@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,65 +7,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// do not modify lucid defined columns, User, Session, Key. new columns can be added. 
-model Users {
-  id             String    @id @unique
-  email          String
-  auth_session   Sessions[]
-  key            Keys[]
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
-  //user custom defined fields
-  stripe_customer_id String? @unique @db.VarChar
-  display_name       String? @db.VarChar
-  subscription_id    String? @db.VarChar
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  todo         Todos[]
-  subscription Subscriptions? @relation(fields: [subscription_id], references: [id], onUpdate: NoAction)
+  @@unique([provider, providerAccountId])
+  @@map(name: "accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "sessions")
+}
+
+model User {
+  id                 String        @id @default(cuid())
+  name               String?
+  email              String?       @unique
+  emailVerified      DateTime?
+  image              String?
+  accounts           Account[]
+  sessions           Session[]
+  stripe_customer_id String?       @unique @db.VarChar
+  display_name       String?       @db.VarChar
+  subscription_id    String?
+  todo               Todo[]
+  subscription       Subscription? @relation(fields: [subscription_id], references: [id], onUpdate: NoAction)
 
   @@map(name: "users")
 }
 
-model Sessions {
-  id             String @id @unique
-  user_id        String
-  active_expires BigInt
-  idle_expires   BigInt
-  user           Users   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-  @@index([user_id])
-  @@map(name: "sessions")
+  @@unique([identifier, token])
+  @@map(name: "verification_tokens")
 }
 
-model Keys {
-  id              String  @id @unique
-  hashed_password String?
-  user_id         String
-  user            Users    @relation(references: [id], fields: [user_id], onDelete: Cascade)
-
-  @@index([user_id])
-  @@map(name: "keys")
-}
-
-// custom defined models, can be modified.
-model Subscriptions {
+model Subscription {
   id               String    @id @unique
   price_id         String
   status           String
   created_at       DateTime? @db.Timestamp(6)
   period_starts_at DateTime? @db.Timestamp(6)
   period_ends_at   DateTime? @db.Timestamp(6)
-  user             Users[]
+  user             User[]
 
   @@map(name: "subscriptions")
 }
 
-model Todos {
+model Todo {
   id          Int     @id @default(autoincrement())
   title       String? @db.VarChar
   description String? @db.VarChar
   user_id     String?
   author      String? @db.VarChar
-  user        Users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user        User?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map(name: "todos")
 }

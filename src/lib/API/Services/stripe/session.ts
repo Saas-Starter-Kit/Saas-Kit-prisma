@@ -7,7 +7,6 @@ import Stripe from 'stripe';
 import { StripeError } from '@/lib/utils/error';
 import { GetUser } from '@/lib/API/DataBase/user/queries';
 import configuration from '@/lib/config/site';
-import { User } from 'lucia';
 interface createCheckoutProps {
   price: string;
 }
@@ -16,7 +15,7 @@ export const createCheckoutSession = async ({ price }: createCheckoutProps) => {
   const { redirects } = config;
   const { toBilling, toSubscription } = redirects;
 
-  const user: User = await GetUser();
+  const user = await GetUser();
   const user_id = user.id;
   const customer_email = user.email;
   const origin = configuration.url;
@@ -52,7 +51,7 @@ export const createCheckoutSession = async ({ price }: createCheckoutProps) => {
 export const createPortalSession = async (): Promise<PortalSessionT> => {
   let portalSession: PortalSessionT;
 
-  const user: User = await GetUser();
+  const user = await GetUser();
   const customer = user?.stripe_customer_id;
   const origin = configuration.url;
 

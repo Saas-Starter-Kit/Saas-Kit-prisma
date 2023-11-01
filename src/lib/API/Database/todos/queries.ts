@@ -1,14 +1,14 @@
 import { PrismaDBError } from '@/lib/utils/error';
-import { GetUser } from '../../Services/auth/user';
+import { GetUser } from '../user/queries';
 import prisma from '../../Services/init/prisma';
-import { Todos } from '@prisma/client';
+import { Todo } from '@prisma/client';
 
-export const GetTodosByUserId = async (): Promise<Todos[]> => {
+export const GetTodosByUserId = async (): Promise<Todo[]> => {
   const user = await GetUser();
-  const user_id = user?.userId;
+  const user_id = user?.id;
 
   try {
-    const todos = await prisma.todos.findMany({
+    const todos = await prisma.todo.findMany({
       where: {
         user_id
       }
@@ -20,9 +20,9 @@ export const GetTodosByUserId = async (): Promise<Todos[]> => {
   }
 };
 
-export const GetTodoById = async (id: number): Promise<Todos> => {
+export const GetTodoById = async (id: number): Promise<Todo> => {
   try {
-    const todo = await prisma.todos.findFirst({
+    const todo = await prisma.todo.findFirst({
       where: {
         id
       }
@@ -34,9 +34,9 @@ export const GetTodoById = async (id: number): Promise<Todos> => {
   }
 };
 
-export const GetAllTodos = async (): Promise<Todos[]> => {
+export const GetAllTodos = async (): Promise<Todo[]> => {
   try {
-    const todos = await prisma.todos.findMany({
+    const todos = await prisma.todo.findMany({
       take: 10
     });
 
