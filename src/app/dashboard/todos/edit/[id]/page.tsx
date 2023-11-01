@@ -1,4 +1,4 @@
-import { GetTodoById } from '@/lib/API/DatabasePrisma/todos/queries';
+import { GetTodoById } from '@/lib/API/Database/todos/queries';
 import TodosEditForm from '../../_PageSections/TodoEditForm';
 
 export default async function EditTodo({ params }) {

@@ -7,47 +7,35 @@ import {
   EmailFormValues,
   UpdatePasswordFormValues
 } from '@/lib/types/validations';
-import { HttpMethodsE } from '@/lib/types/enums';
 import { redirect } from 'next/navigation';
 import config from '@/lib/config/auth';
 import { GetUser } from './queries';
+import prisma, { Prisma } from '../../Services/init/prisma';
 
 interface UpdateUserSubPropsT {
   stripe_customer_id: string;
   subscription_id: string;
 }
 
-export const SignUp = async ({ email }: EmailFormValues) => {
-  let user;
-
-  try {
-  } catch (err) {
-    if (err instanceof Error) {
-      AuthError(err);
-    }
-    PrismaDBError(err);
-  }
-
-  let session;
-  try {
-  } catch (err) {
-    if (err instanceof Error) {
-      AuthError(err);
-    }
-    PrismaDBError(err);
-  }
-
-  redirect(config.redirects.toAddSub);
-};
-
 export const UpdateUserSubscription = async ({
   stripe_customer_id,
   subscription_id
 }: UpdateUserSubPropsT) => {
   const user = await GetUser();
-  const userId = user?.id;
+  const id = user?.id;
+
+  const data: Prisma.UserUpdateInput = {
+    stripe_customer_id,
+    subscription: { connect: { id: subscription_id } }
+  };
 
   try {
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data
+    });
   } catch (err) {
     if (err instanceof Error) {
       AuthError(err);
@@ -58,9 +46,16 @@ export const UpdateUserSubscription = async ({
 
 export const UpdateUserName = async ({ display_name }: DisplayNameFormValues) => {
   const user = await GetUser();
-  const userId = user?.id;
+  const id = user?.id;
+  const data: Prisma.UserUpdateInput = { display_name };
 
   try {
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data
+    });
   } catch (err) {
     if (err instanceof Error) {
       AuthError(err);
@@ -71,9 +66,16 @@ export const UpdateUserName = async ({ display_name }: DisplayNameFormValues) =>
 
 export const UpdateUserEmail = async ({ email }: EmailFormValues) => {
   const user = await GetUser();
-  const userId = user?.id;
+  const id = user?.id;
+  const data: Prisma.UserUpdateInput = { email };
 
   try {
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data
+    });
   } catch (err) {
     if (err instanceof Error) {
       AuthError(err);

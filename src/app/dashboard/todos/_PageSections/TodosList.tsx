@@ -1,12 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Todos } from '@prisma/client';
+import { Todo } from '@prisma/client';
 
 interface TodoCardProps {
-  todo: Todos;
+  todo: Todo;
 }
 
 interface MyTodosProps {
-  todos: Todos[];
+  todos: Todo[];
 }
 
 const TodoCard = ({ todo }: TodoCardProps) => {

@@ -16,7 +16,7 @@ interface DeleteTodoPropsI {
 export const CreateTodo = async ({ title, description }: todoFormValues) => {
   const user = await GetUser();
 
-  const user_id = user?.userId;
+  const user_id = user?.id;
   const author = user?.display_name || '';
   const data: Prisma.TodoCreateInput = {
     title,

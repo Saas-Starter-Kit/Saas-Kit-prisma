@@ -1,7 +1,7 @@
 'use server';
 
 import prisma, { Prisma } from '../../Services/init/prisma';
-import { GetUser } from '@/lib/API/DataBase/user/queries';
+import { GetUser } from '@/lib/API/Database/user/queries';
 import { PrismaDBError } from '@/lib/utils/error';
 import { Subscription } from '@prisma/client';
 

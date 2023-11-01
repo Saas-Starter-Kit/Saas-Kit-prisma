@@ -1,4 +1,4 @@
-import { GetAllTodos } from '@/lib/API/DatabasePrisma/todos/queries';
+import { GetAllTodos } from '@/lib/API/Database/todos/queries';
 import TodosList from '../_PageSections/TodosList';
 
 export default async function ListTodos() {

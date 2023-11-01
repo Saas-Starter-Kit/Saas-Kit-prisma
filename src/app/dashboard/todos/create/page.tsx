@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Icons } from '@/components/Icons';
-import { CreateTodo } from '@/lib/API/DataBasePrisma/todos/mutations';
+import { CreateTodo } from '@/lib/API/DataBase/todos/mutations';
 import { toast } from 'react-toastify';
 import config from '@/lib/config/api';
 import { useRouter } from 'next/navigation';

@@ -15,7 +15,7 @@ import {
 import Link from 'next/link';
 import { Icons } from '@/components/Icons';
 import { useTheme } from 'next-themes';
-import { Logout } from '@/lib/API/Services/auth/session';
+import { Logout } from '@/lib/API/Services/auth/login';
 
 export function UserNav({ email, display_name, avatar_url }) {
   const { setTheme } = useTheme();

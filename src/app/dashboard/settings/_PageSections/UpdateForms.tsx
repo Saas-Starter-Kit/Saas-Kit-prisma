@@ -22,18 +22,12 @@ import {
   DisplayNameFormValues,
   DisplayNameFormSchema,
   EmailFormSchema,
-  EmailFormValues,
-  UpdatePasswordFormSchema,
-  UpdatePasswordFormValues
+  EmailFormValues
 } from '@/lib/types/validations';
 
 import { UpdateStripeCustomerEmail } from '@/lib/API/Services/stripe/customer';
 
-import {
-  UpdateUserName,
-  UpdateUserEmail,
-  UpdateUserPassword
-} from '@/lib/API/Database/user/mutations';
+import { UpdateUserName, UpdateUserEmail } from '@/lib/API/Database/user/mutations';
 interface UpdateDisplayNamePropsI {
   display_name: string;
 }
@@ -173,70 +167,6 @@ export const UpdateEmail = ({ email, customer }: UpdateEmailPropsI) => {
           <Button disabled={isSubmitting} className="mt-4">
             {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
             Update Email
-          </Button>
-        </form>
-      </Form>
-    </div>
-  );
-};
-
-export const UpdatePassword = () => {
-  const form = useForm<UpdatePasswordFormValues>({
-    resolver: zodResolver(UpdatePasswordFormSchema),
-    defaultValues: {
-      password: ''
-    }
-  });
-
-  const {
-    register,
-    setError,
-    formState: { isSubmitting }
-  } = form;
-
-  const handleSubmit = async (data: UpdatePasswordFormValues) => {
-    const password = data.password;
-    const props = { password };
-
-    try {
-      await UpdateUserPassword(props);
-    } catch (err) {
-      setError('password', {
-        type: '"root.serverError',
-        message: 'Something went wrong'
-      });
-      throw err;
-    }
-
-    toast.success('Update Completed');
-  };
-
-  return (
-    <div className="mt-4 mb-10">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    {...register('password')}
-                    className="bg-background-light dark:bg-background-dark"
-                    type="text"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Update Account Password</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button disabled={isSubmitting} className="mt-4">
-            {isSubmitting && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Update Password
           </Button>
         </form>
       </Form>

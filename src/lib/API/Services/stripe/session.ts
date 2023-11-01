@@ -5,7 +5,7 @@ import config from '@/lib/config/auth';
 import { PortalSessionT } from '@/lib/types/stripe';
 import Stripe from 'stripe';
 import { StripeError } from '@/lib/utils/error';
-import { GetUser } from '@/lib/API/DataBase/user/queries';
+import { GetUser } from '@/lib/API/Database/user/queries';
 import configuration from '@/lib/config/site';
 interface createCheckoutProps {
   price: string;

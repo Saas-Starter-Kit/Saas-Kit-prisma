@@ -14,40 +14,15 @@ export const {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'database' },
   pages: {
-    signIn: config.redirects.requireAuth,
-    newUser: config.redirects.toAddSub
+    signIn: config.redirects.toLogin,
+    newUser: config.redirects.toAddSub,
+    verifyRequest: config.redirects.authConfirm
   },
   callbacks: {
-    //async jwt({ token, user }) {
-    //  const dbUser = await prisma.user.findFirst({
-    //    where: {
-    //      email: token.email
-    //    }
-    //  });
+    async session({ session, user }) {
+      if (!user) throw 'User Not Found';
 
-    //  console.log(dbUser);
-
-    //  if (!dbUser) {
-    //    if (user) {
-    //      token.id = user?.id;
-    //      token.display_name = 'ffff';
-    //    }
-    //    return token;
-    //  }
-
-    //  return {
-    //    id: dbUser.id,
-    //    email: dbUser.email,
-    //    stripe_customer_id: dbUser.stripe_customer_id,
-    //    display_name: dbUser.display_name,
-    //    subscription_id: dbUser.subscription_id
-    //  };
-    //},
-    async session({ token, session, user }) {
-      if (token) {
-        session.user.id = token.id as string;
-        session.user.display_name = token.display_name as string;
-      }
+      session.user.id = user.id as string;
       return session;
     }
   }

@@ -4,11 +4,13 @@ import { LayoutProps } from '@/lib/types/types';
 import { GetUser } from '@/lib/API/Database/user/queries';
 import config from '@/lib/config/auth';
 import { redirect } from 'next/navigation';
+import { GetSession } from '@/lib/API/Services/auth/session';
 
 export default async function DashboardLayout({ children }: LayoutProps) {
-  const user = await GetUser();
-  if (!user) redirect(config.redirects.requireAuth);
+  const session = await GetSession();
+  if (!session) redirect(config.redirects.requireAuth);
 
+  const user = await GetUser();
   const display_name = user?.display_name;
   const email = user?.email;
 
