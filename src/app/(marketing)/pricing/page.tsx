@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import configuration from '@/lib/config/dashboard';
-import { useRouter } from 'next/navigation';
 import {
   Card,
   CardHeader,
