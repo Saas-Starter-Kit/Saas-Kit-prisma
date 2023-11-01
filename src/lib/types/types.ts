@@ -1,5 +1,7 @@
 import { LucideIcon } from 'lucide-react';
 import { IntervalE } from './enums';
+import { EmailFormValues } from './validations';
+import { AuthProviderE } from './enums';
 
 export type NavItem = {
   title: string;
@@ -14,6 +16,10 @@ export type NavItemSidebar = {
 
 export interface LayoutProps {
   children: React.ReactNode;
+}
+
+export interface LoginPropsI extends EmailFormValues {
+  provider: AuthProviderE;
 }
 
 export interface PlanI {

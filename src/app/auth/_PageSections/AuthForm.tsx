@@ -12,6 +12,8 @@ import { Login } from '@/lib/API/Services/auth/login';
 
 import config from '@/lib/config/auth';
 import { useRouter } from 'next/navigation';
+import { AuthProviderE } from '@/lib/types/enums';
+import { LoginPropsI } from '@/lib/types/types';
 
 interface AuthFormPropsI {
   submit_text: string;
@@ -33,7 +35,7 @@ export default function AuthForm({ submit_text }: AuthFormPropsI) {
   } = form;
 
   const onSubmit = async (values: EmailFormValues) => {
-    const props: EmailFormValues = { email: values.email };
+    const props: LoginPropsI = { email: values.email, provider: AuthProviderE.EMAIL };
 
     await Login(props);
 
@@ -41,7 +43,11 @@ export default function AuthForm({ submit_text }: AuthFormPropsI) {
   };
 
   const handleGoogleSignIn = async () => {
-    //available in pro version
+    const props: LoginPropsI = { provider: AuthProviderE.GOOGLE };
+
+    await Login(props);
+
+    router.push(config.redirects.authConfirm);
   };
 
   return (
