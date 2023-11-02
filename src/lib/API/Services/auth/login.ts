@@ -30,7 +30,6 @@ export const Login = async ({ email }: EmailFormValues) => {
 export const GoogleLogin = async () => {
   try {
     const signInResult = await signIn(AuthProviderE.GOOGLE, {
-      redirect: false,
       callbackUrl: config.redirects.toDashboard
     });
 
