@@ -42,8 +42,6 @@ export default function AuthForm({ submit_text }: AuthFormPropsI) {
 
   const handleGoogleSignIn = async () => {
     await GoogleLogin();
-
-    router.push(config.redirects.authConfirm);
   };
 
   return (
