@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate --no-engine && next build",
     "start": "next start",
     "lint": "next lint",
     "e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
     "e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate --no-engine",
     "test": "jest",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/stripe/webhook",
     "ngrok": "ngrok http 3000"
