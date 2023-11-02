@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 //import { PrismaClient } from '@prisma/client/edge';
 //import { withAccelerate } from '@prisma/extension-accelerate';
 
-import { PrismaClient } from '@prisma/client/edge';
+import { PrismaClient } from '@prisma/client';
 
 // PrismaClient is attached to the `global` object in development to prevent
 // exhausting your database connection limit.
