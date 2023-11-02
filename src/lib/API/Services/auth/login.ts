@@ -5,12 +5,31 @@ import { toast } from 'react-toastify';
 import { signIn, signOut } from 'next-auth/react';
 import configuration from '@/lib/config/api';
 import config from '@/lib/config/auth';
-import { LoginPropsI } from '@/lib/types/types';
+import { AuthProviderE } from '@/lib/types/enums';
+import { EmailFormValues } from '@/lib/types/validations';
 
-export const Login = async ({ email, provider }: LoginPropsI) => {
+export const Login = async ({ email }: EmailFormValues) => {
   try {
-    const signInResult = await signIn(provider, {
+    const signInResult = await signIn(AuthProviderE.EMAIL, {
       email: email.toLowerCase(),
+      redirect: false,
+      callbackUrl: config.redirects.toDashboard
+    });
+
+    if (signInResult?.error) {
+      toast.error(configuration.errorMessageGeneral);
+      const error: Error = { name: 'Auth Error', message: signInResult?.error };
+      AuthError(error);
+    }
+  } catch (err) {
+    toast.error(configuration.errorMessageGeneral);
+    AuthError(err);
+  }
+};
+
+export const GoogleLogin = async () => {
+  try {
+    const signInResult = await signIn(AuthProviderE.GOOGLE, {
       redirect: false,
       callbackUrl: config.redirects.toDashboard
     });

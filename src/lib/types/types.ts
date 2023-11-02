@@ -18,10 +18,6 @@ export interface LayoutProps {
   children: React.ReactNode;
 }
 
-export interface LoginPropsI extends EmailFormValues {
-  provider: AuthProviderE;
-}
-
 export interface PlanI {
   name: string;
   interval?: IntervalE;
