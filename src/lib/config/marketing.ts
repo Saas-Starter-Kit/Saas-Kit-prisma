@@ -2,10 +2,7 @@ import { Metadata } from 'next';
 import siteConfig from './site';
 
 const config = {
-  routes: [
-    { title: 'Pricing', link: '/pricing' },
-    { title: 'FAQ', link: '/faq' }
-  ],
+  routes: [{ title: 'Pricing', link: '/pricing' }],
   footer_nav: {
     about: {
       title: 'About',
