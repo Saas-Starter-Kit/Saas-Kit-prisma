@@ -17,7 +17,6 @@ export const Login = async ({ email }: EmailFormValues) => {
     });
 
     if (signInResult?.error) {
-      throw signInResult;
       toast.error(configuration.errorMessageGeneral);
       const error: Error = { name: 'Auth Error', message: signInResult?.error };
       AuthError(error);
