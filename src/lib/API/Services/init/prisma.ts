@@ -15,11 +15,13 @@ let prisma;
 
 if (process.env.NODE_ENV === 'production') {
   //prisma = new PrismaClient().$extends(withAccelerate());
-  prisma = new PrismaClient();
+  prisma = new PrismaClient({
+    datasourceUrl: process.env.POSTGRES_URL
+  });
 } else {
   if (!global.prisma) {
     //global.prisma = new PrismaClient().$extends(withAccelerate());
-    global.prisma = new PrismaClient();
+    global.prisma = new PrismaClient({ datasourceUrl: process.env.POSTGRES_URL });
   }
   prisma = global.prisma;
 }
