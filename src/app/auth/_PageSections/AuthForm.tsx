@@ -12,8 +12,6 @@ import { Login, GoogleLogin } from '@/lib/API/Services/auth/login';
 
 import config from '@/lib/config/auth';
 import { useRouter } from 'next/navigation';
-import prisma from '@/lib/API/Services/init/prisma';
-import { PrismaDBError } from '@/lib/utils/error';
 interface AuthFormPropsI {
   submit_text: string;
 }
@@ -27,19 +25,6 @@ export default function AuthForm({ submit_text }: AuthFormPropsI) {
       email: ''
     }
   });
-
-  const CreateTodo = async () => {
-    const data = {
-      title: 'ddddd',
-      description: 'dddddd'
-    };
-
-    try {
-      await prisma.todo.create({ data });
-    } catch (err) {
-      PrismaDBError(err);
-    }
-  };
 
   const {
     register,
@@ -106,7 +91,6 @@ export default function AuthForm({ submit_text }: AuthFormPropsI) {
           <span className="ml-2 font-semibold">Sign in with Google</span>
         </Button>
       </div>
-      <button onClick={CreateTodo}>DFFFFFF</button>
     </div>
   );
 }

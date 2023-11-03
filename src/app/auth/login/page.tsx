@@ -9,8 +9,25 @@ import {
 import Link from 'next/link';
 
 import AuthForm from '../_PageSections/AuthForm';
+import prisma from '@/lib/API/Services/init/prisma';
+import { PrismaDBError } from '@/lib/utils/error';
 
-export default function Login() {
+export default async function Login() {
+  const CreateTodo = async () => {
+    const data = {
+      title: 'ddddd',
+      description: 'dddddd'
+    };
+
+    try {
+      await prisma.todo.create({ data });
+    } catch (err) {
+      PrismaDBError(err);
+    }
+  };
+
+  await CreateTodo();
+
   return (
     <div className="md:w-96">
       <Card className="bg-background-light dark:bg-background-dark">
