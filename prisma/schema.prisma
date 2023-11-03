@@ -2,11 +2,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+  //url =  env("POSTGRES_URL")
+
   //directUrl = env("POSTGRES_URL")
   //url = env("POSTGRES_PRISMA_ACCELERATE_URL")
 datasource db {
   provider = "postgresql"
-  url =  env("POSTGRES_URL")
+  directUrl = env("POSTGRES_URL")
+  url = env("POSTGRES_PRISMA_ACCELERATE_URL")
 }
 
 model Account {
