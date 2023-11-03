@@ -13,20 +13,19 @@ import prisma from '@/lib/API/Services/init/prisma';
 import { PrismaDBError } from '@/lib/utils/error';
 
 export default async function Login() {
-  const CreateTodo = async () => {
-    const data = {
-      title: 'ddddd',
-      description: 'dddddd'
-    };
-
+  const GetAllTodos = async () => {
     try {
-      await prisma.todo.create({ data });
+      const todos = await prisma.todo.findMany({
+        take: 10
+      });
+
+      return todos;
     } catch (err) {
       PrismaDBError(err);
     }
   };
 
-  await CreateTodo();
+  await GetAllTodos();
 
   return (
     <div className="md:w-96">
