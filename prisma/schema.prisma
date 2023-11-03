@@ -8,7 +8,7 @@ generator client {
   //url = env("POSTGRES_PRISMA_ACCELERATE_URL")
 datasource db {
   provider = "postgresql"
-  url =  "postgres://default:wEKHoyM8CZq5@ep-bitter-tree-33202230-pooler.us-east-1.postgres.vercel-storage.com/verceldb"
+  url =  "prisma://postgres://default:wEKHoyM8CZq5@ep-bitter-tree-33202230-pooler.us-east-1.postgres.vercel-storage.com/verceldb"
 }
 
 model Account {
