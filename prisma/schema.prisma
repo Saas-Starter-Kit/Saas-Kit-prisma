@@ -8,7 +8,7 @@ generator client {
   //url = env("POSTGRES_PRISMA_ACCELERATE_URL")
 datasource db {
   provider = "postgresql"
-  url =  env("POSTGRES_URL_NON_POOLING")
+  url =  env("DATABASE_URL")
 }
 
 model Account {
