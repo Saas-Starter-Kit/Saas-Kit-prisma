@@ -51,6 +51,7 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
       break;
     case WebhookEvents.subscription_updated:
       const subscriptionUpdate = event.data.object;
+      console.log('Subscription Updated Started');
       console.log(subscriptionUpdate);
       const UpdatedCols = Object.keys(event.data.previous_attributes);
       const validColumns = [

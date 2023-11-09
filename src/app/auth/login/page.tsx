@@ -13,20 +13,6 @@ import prisma from '@/lib/API/Services/init/prisma';
 import { PrismaDBError } from '@/lib/utils/error';
 
 export default async function Login() {
-  const GetAllTodos = async () => {
-    try {
-      const todos = await prisma.todo.findMany({
-        take: 10
-      });
-
-      return todos;
-    } catch (err) {
-      PrismaDBError(err);
-    }
-  };
-
-  await GetAllTodos();
-
   return (
     <div className="md:w-96">
       <Card className="bg-background-light dark:bg-background-dark">

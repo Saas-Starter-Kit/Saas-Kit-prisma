@@ -50,12 +50,13 @@ export const UpdateSubscription = async ({
   };
 
   try {
-    await prisma.subscription.update({
+    const res = await prisma.subscription.update({
       where: {
         id
       },
       data
     });
+    console.log(res);
   } catch (err) {
     PrismaDBError(err);
   }
