@@ -86,6 +86,7 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
     default:
       // Unexpected event type
       console.log(`Unhandled event type ${event.type}.`);
+      throw `Unhandled Event Type ${event.type}`;
   }
 };
 

@@ -29,7 +29,9 @@ export const Login = async ({ email }: EmailFormValues) => {
 
 export const GoogleLogin = async () => {
   try {
-    const signInResult = await signIn(AuthProviderE.GOOGLE);
+    const signInResult = await signIn(AuthProviderE.GOOGLE, {
+      callbackUrl: config.redirects.toDashboard
+    });
 
     if (signInResult?.error) {
       toast.error(configuration.errorMessageGeneral);
