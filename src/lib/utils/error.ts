@@ -20,3 +20,10 @@ export const AuthError = (err: Error) => {
     throw err;
   }
 };
+
+export const StripeWebhookError = (err: Error) => {
+  if (err) {
+    console.log(err);
+    throw err;
+  }
+};

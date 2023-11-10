@@ -11,6 +11,7 @@ export default async function SubscriptionPage() {
 
   let subscription: Subscription;
   const subscription_id = user?.subscription_id;
+
   if (!subscription_id) {
     redirect(config.redirects.toAddSub);
   } else {

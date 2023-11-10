@@ -36,10 +36,10 @@ export const createCheckoutSession = async ({ price }: createCheckoutProps) => {
       metadata: {
         user_id
       },
-      customer_email,
-      subscription_data: {
-        trial_period_days: 14
-      }
+      customer_email
+      //subscription_data: {
+      //  trial_period_days: 14
+      //}
     });
   } catch (err) {
     StripeError(err);

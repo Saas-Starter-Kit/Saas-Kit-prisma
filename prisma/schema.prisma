@@ -71,8 +71,6 @@ model Subscription {
   id               String    @id @unique
   price_id         String
   status           String
-  created_at       DateTime? @db.Timestamp(6)
-  period_starts_at DateTime? @db.Timestamp(6)
   period_ends_at   DateTime? @db.Timestamp(6)
   user             User[]
 

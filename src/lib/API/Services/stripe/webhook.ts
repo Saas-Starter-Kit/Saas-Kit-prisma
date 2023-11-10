@@ -4,6 +4,8 @@ import { RetrieveSubscription } from './customer';
 import { StripeEvent } from '@/lib/types/stripe';
 import { UpdateUserSubscription } from '../../Database/user/mutations';
 import { CreateSubscription, UpdateSubscription } from '../../Database/subscription/mutations';
+import { Subscription } from '@prisma/client';
+import { WebhookEventsE } from '@/lib/types/enums';
 
 const subscriptionStatusActive = { trailing: 'trailing', active: 'active' };
 const subscriptionStatusVoid = {
@@ -14,31 +16,31 @@ const subscriptionStatusVoid = {
 };
 
 const WebhookEvents = {
-  subscription_updated: 'customer.subscription.updated',
-  checkout_session_completed: 'checkout.session.completed'
+  customer_subscription_updated: WebhookEventsE.CustomerSubscriptionUpdated,
+  checkout_session_completed: WebhookEventsE.CheckoutSessionCompleted
 };
 
 export const WebhookEventHandler = async (event: StripeEvent) => {
   // Handle the event
   switch (event.type) {
     case WebhookEvents.checkout_session_completed:
-      const session = event.data.object;
+      const subscriptionId = event.data.object.subscription;
 
-      const subscription: Stripe.Subscription = await RetrieveSubscription(session.subscription);
+      const subscription: Stripe.Subscription = await RetrieveSubscription(subscriptionId);
 
       const stripe_customer_id = subscription.customer as string;
       const statusSub = subscription.status as string;
 
-      const dataSub = {
+      let dataSub: Subscription = {
         id: subscription.id,
         price_id: subscription.items.data[0].price.id,
         status: statusSub,
-        created_at: new Date(Date.now()),
-        period_starts_at: new Date(subscription.current_period_start * 1000),
         period_ends_at: new Date(subscription.current_period_end * 1000)
       };
 
       await CreateSubscription(dataSub);
+
+      console.log('Stripe Subscription Created');
 
       const dataUser = {
         stripe_customer_id,
@@ -47,41 +49,21 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
 
       await UpdateUserSubscription(dataUser);
 
-      console.log('Stripe Customer Successfully Created');
+      console.log('Stripe Customer Created');
       break;
-    case WebhookEvents.subscription_updated:
-      const subscriptionUpdate = event.data.object;
-      console.log('Subscription Updated Started');
-      console.log(subscriptionUpdate);
-      const UpdatedCols = Object.keys(event.data.previous_attributes);
-      const validColumns = [
-        'price_id',
-        'status',
-        'created_at',
-        'period_starts_at',
-        'period_ends_at'
-      ];
-      const validUpdatedCols = UpdatedCols.filter((element) => validColumns.includes(element));
-      let dataUpdate = {};
+    case WebhookEvents.customer_subscription_updated:
+      // Incorrect infered type, need to override.
+      const subscriptionUpdate = event.data.object as unknown as Stripe.Subscription;
 
-      validUpdatedCols.forEach((item) => {
-        dataUpdate[item] = subscriptionUpdate[item];
-      });
+      let dataSubUpdate: Subscription = {
+        id: subscriptionUpdate.id,
+        price_id: subscriptionUpdate.items.data[0].price.id,
+        status: subscriptionUpdate.status,
+        period_ends_at: new Date(subscriptionUpdate.current_period_end * 1000)
+      };
 
-      if (UpdatedCols.includes('status')) {
-        const validStatus = [
-          ...Object.keys(subscriptionStatusActive),
-          ...Object.keys(subscriptionStatusVoid)
-        ];
-        if (validStatus.includes(subscriptionUpdate.status)) {
-          dataUpdate['status'] = subscriptionUpdate.status;
-        }
-      }
-
-      if (Object.keys(dataUpdate).length !== 0) {
-        await UpdateSubscription(dataUpdate);
-      }
-
+      await UpdateSubscription(dataSubUpdate);
+      console.log('Stripe Subscription Updated');
       break;
     default:
       // Unexpected event type
