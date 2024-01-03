@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
 import config from '@/lib/config/auth';
 import Google from 'next-auth/providers/google';
 import EmailProvider from 'next-auth/providers/email';
@@ -35,7 +34,7 @@ export const {
   pages: {
     signIn: config.redirects.toLogin
   },
-  debug: true,
+  //debug: true,
   callbacks: {
     async session({ session, user }) {
       if (user || session) {

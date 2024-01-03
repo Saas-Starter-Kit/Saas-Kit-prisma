@@ -11,7 +11,6 @@ export const sendVerificationRequest = async ({
       to: identifier,
       subject: 'Activate your account',
       text: url
-      //html
     });
   } catch (error) {
     throw new Error('Failed to send verification email.');

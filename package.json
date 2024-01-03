@@ -42,6 +42,7 @@
     "client-only": "^0.0.1",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "dotenv": "^16.3.1",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "lucide-react": "^0.279.0",
@@ -67,6 +68,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.1",
     "encoding": "^0.1.13",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
