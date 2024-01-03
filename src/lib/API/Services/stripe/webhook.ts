@@ -7,14 +7,6 @@ import { CreateSubscription, UpdateSubscription } from '../../Database/subscript
 import { Subscription } from '@prisma/client';
 import { WebhookEventsE } from '@/lib/types/enums';
 
-const subscriptionStatusActive = { trailing: 'trailing', active: 'active' };
-const subscriptionStatusVoid = {
-  past_due: 'past_due',
-  canceled: 'canceled',
-  unpaid: 'unpaid',
-  incomplete_expired: 'incomplete_expired'
-};
-
 const WebhookEvents = {
   customer_subscription_updated: WebhookEventsE.CustomerSubscriptionUpdated,
   checkout_session_completed: WebhookEventsE.CheckoutSessionCompleted

@@ -7,18 +7,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
-    "e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
-    "postinstall": "prisma generate",
-    "test": "jest",
+    "postinstall": "prisma migrate dev && prisma generate",
+    "maildev": "docker run -p 1080:1080 -p 1025:1025 maildev/maildev",
+    "test": "cross-env NODE_ENV=test npx playwright test",
+    "test:ui": "cross-env NODE_ENV=test npx playwright test --ui",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/stripe/webhook",
     "ngrok": "ngrok http 3000"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.5",
     "@hookform/resolvers": "^3.3.1",
-    "@prisma/client": "^5.4.2",
-    "@prisma/extension-accelerate": "^0.6.2",
+    "@neondatabase/serverless": "^0.6.1",
+    "@prisma/adapter-neon": "^5.7.1",
+    "@prisma/client": "^5.7.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
@@ -31,7 +32,6 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
-    "@sentry/nextjs": "^7.77.0",
     "@stripe/stripe-js": "^2.1.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "20.5.7",
@@ -63,17 +63,13 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
+    "ws": "^8.16.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.2",
-    "@testing-library/react": "^14.0.0",
-    "cypress": "^13.0.0",
     "encoding": "^0.1.13",
-    "jest": "^29.6.4",
-    "jest-environment-jsdom": "^29.6.4",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
-    "prisma": "5.4.2"
+    "prisma": "^5.7.1"
   }
 }

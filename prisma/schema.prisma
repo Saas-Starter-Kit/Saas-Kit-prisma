@@ -1,14 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
-  //url =  env("POSTGRES_URL")
-
-  //directUrl = env("POSTGRES_URL")
-  //url = env("POSTGRES_PRISMA_ACCELERATE_URL")
 datasource db {
   provider = "postgresql"
-  url =  env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -53,7 +50,7 @@ model User {
   display_name       String?       @db.VarChar
   subscription_id    String?
   todo               Todo[]
-  subscription       Subscription? @relation(fields: [subscription_id], references: [id], onUpdate: NoAction)
+  subscription       Subscription? @relation(fields: [subscription_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map(name: "users")
 }
@@ -83,7 +80,7 @@ model Todo {
   description String? @db.VarChar
   user_id     String?
   author      String? @db.VarChar
-  user        User?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user        User?   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map(name: "todos")
 }
