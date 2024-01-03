@@ -1,7 +1,5 @@
 import { LucideIcon } from 'lucide-react';
 import { IntervalE } from './enums';
-import { EmailFormValues } from './validations';
-import { AuthProviderE } from './enums';
 
 export type NavItem = {
   title: string;
