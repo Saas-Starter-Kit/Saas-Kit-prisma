@@ -21,6 +21,7 @@ Saas Starterkit also comes in a Pro version. Get premium marketing pages, multi-
 <br />
 <br />
 https://www.saasstarterkit.com/
+<br />
 
 ## ✨ Features
 -  ✅  Admin Dashboard
@@ -41,12 +42,16 @@ https://www.saasstarterkit.com/
 
 ## 📜 Docs 
 
-The Documentation is available here: https://docs.saasstarterkit.com/docs/Intro/Welcome
+The Documentation is available here: 
+<br />
+https://www.saasstarterkit.com/docs
 
 If  there are any questions or something is not covered in the docs, feel free to open a github issue on this repo. 
 
 ##  💻 Demo
-The Demo can be found here: https://demo.saasstarterkit.com/app/1/dashboard
+The Demo can be found here: 
+<br />
+https://www.saasstarterkit.com/dashboard/test243/main
 
 Certain Features have to be disabled or cant be included in the demo. 
 
