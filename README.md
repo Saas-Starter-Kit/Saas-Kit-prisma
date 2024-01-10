@@ -25,7 +25,7 @@ https://www.saasstarterkit.com/
 
 ## ✨ Features
 -  ✅  Admin Dashboard
--  ✅  Full Authentication, with Google Social Login and Password Reset
+-  ✅  Full Authentication, with Google Social Login
 -  ✅  User Profile Management with Email and Username change
 -  ✅  User Dashboard
 -  ✅  Checkout Pages
