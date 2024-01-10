@@ -18,21 +18,9 @@ Reactjs, Nextjs, Typescript, Tailwind, Shadcn, Stripe Nextauth, Prisma, Postgres
 ## 🧿 Saas Starterkit Pro
  
 Saas Starterkit also comes in a Pro version. Get premium marketing pages, multi-tenancy, roles and permissions, team invites, enhanced subscriptions with Lemon Squeezy, and more check it out here: 
-https://www.saasstarterkit.com/
-
-## ⚙️ Installation
-
-<strong>node version >= 14 recommended.</strong>
 <br />
-<strong>npm version >= 7 is recommended.</strong> 
-
-Using an older node version may lead to unexpected errors.
-
-This Project Requires Firebase credentials and either Postgres or MongoDB credentials. 
-Simply substitute the credentials into the appropriate env variables in both the client and server. 
-
-How to obtain the credentials from Firebase can be found in the Saas Starter Kit docs. Postgres and MongoDB credentials are user set. 
-
+<br />
+https://www.saasstarterkit.com/
 
 ## ✨ Features
 -  ✅  Admin Dashboard
