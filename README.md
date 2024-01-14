@@ -10,8 +10,7 @@
 
 
 ## 🎛 Tech Stack 
-#### Frontend:
-Reactjs, Nextjs, Typescript, Tailwind, Shadcn, Stripe Nextauth, Prisma, Postgres, Playwright. 
+Reactjs, Nextjs, Typescript, Tailwind, Shadcn, Stripe, Nextauth, Prisma, Postgres, Playwright. 
 
 
   
