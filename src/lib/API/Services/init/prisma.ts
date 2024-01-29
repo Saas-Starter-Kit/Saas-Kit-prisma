@@ -5,7 +5,7 @@ import ws from 'ws';
 
 //www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices
 declare global {
-  var prisma: PrismaClient | undefined;
+  var prisma: PrismaClient | undefined; // eslint-disable-line
 }
 
 let prisma: PrismaClient;

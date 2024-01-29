@@ -15,7 +15,7 @@ const WebhookEvents = {
 export const WebhookEventHandler = async (event: StripeEvent) => {
   // Handle the event
   switch (event.type) {
-    case WebhookEvents.checkout_session_completed:
+    case WebhookEvents.checkout_session_completed: {
       const subscriptionId = event.data.object.subscription;
 
       const subscription: Stripe.Subscription = await RetrieveSubscription(subscriptionId);
@@ -23,7 +23,7 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
       const stripe_customer_id = subscription.customer as string;
       const statusSub = subscription.status as string;
 
-      let dataSub: Subscription = {
+      const dataSub: Subscription = {
         id: subscription.id,
         price_id: subscription.items.data[0].price.id,
         status: statusSub,
@@ -35,6 +35,7 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
       console.log('Stripe Subscription Created');
 
       const dataUser = {
+        id: event.data.object.metadata.user_id,
         stripe_customer_id,
         subscription_id: subscription.id
       };
@@ -43,24 +44,25 @@ export const WebhookEventHandler = async (event: StripeEvent) => {
 
       console.log('Stripe Customer Created');
       break;
-    case WebhookEvents.customer_subscription_updated:
+    }
+    case WebhookEvents.customer_subscription_updated: {
       // Incorrect infered type, need to override.
       const subscriptionUpdate = event.data.object as unknown as Stripe.Subscription;
 
-      let dataSubUpdate: Subscription = {
+      const dataSub: Subscription = {
         id: subscriptionUpdate.id,
         price_id: subscriptionUpdate.items.data[0].price.id,
         status: subscriptionUpdate.status,
         period_ends_at: new Date(subscriptionUpdate.current_period_end * 1000)
       };
 
-      await UpdateSubscription(dataSubUpdate);
+      await UpdateSubscription(dataSub);
       console.log('Stripe Subscription Updated');
       break;
+    }
     default:
       // Unexpected event type
       console.log(`Unhandled event type ${event.type}.`);
-      throw `Unhandled Event Type ${event.type}`;
   }
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent, CardTitle } from '@/components/ui/Card';
 import {
   ComposedChart,
   Line,

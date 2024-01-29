@@ -1,9 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 
 export function RecentSales() {
   return (
-    <Card className='bg-background-light dark:bg-background-dark'>
+    <Card className="bg-background-light dark:bg-background-dark">
       <CardHeader>
         <CardTitle>Recent Sales:</CardTitle>
         <CardDescription>Sales made within the last 30 days</CardDescription>

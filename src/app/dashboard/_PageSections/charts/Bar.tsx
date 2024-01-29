@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent, CardTitle } from '@/components/ui/Card';
 import React from 'react';
 import {
   BarChart,
@@ -89,8 +89,8 @@ const data = [
 ];
 
 const monthTickFormatter = (tick) => {
-  let date = new Date(tick);
-  let dateTick = date.getMonth() + 1;
+  const date = new Date(tick);
+  const dateTick = date.getMonth() + 1;
 
   return dateTick.toString();
 };
@@ -101,7 +101,6 @@ const renderQuarterTick = (tickProps) => {
   const date = new Date(value);
   const month = date.getMonth();
   const quarterNo = Math.floor(month / 3) + 1;
-  const isMidMonth = month % 3 === 1;
 
   if (month % 3 === 1) {
     return <text x={x} y={y - 4} textAnchor="middle">{`Q${quarterNo}`}</text>;

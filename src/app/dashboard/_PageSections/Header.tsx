@@ -28,7 +28,7 @@ const Header = ({ display_name, email, avatar_url }: HeaderProps) => {
     } else {
       setHeaderText('Dashboard');
     }
-  }, []);
+  }, []); //eslint-disable-line
 
   return (
     <div className="border-b">

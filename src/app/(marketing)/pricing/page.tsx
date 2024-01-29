@@ -44,7 +44,7 @@ const PriceCard = ({ product, timeInterval }: PriceCardProps) => {
 
   useEffect(() => {
     setProductPlan();
-  }, [timeInterval]);
+  }, [timeInterval]); //eslint-disable-line
 
   return (
     <Card
@@ -137,7 +137,8 @@ const Pricing = () => {
   const premium: ProductI = products[1];
 
   const changeTimeInterval = () => {
-    let intervalSwitch = timeInterval === IntervalE.MONTHLY ? IntervalE.YEARLY : IntervalE.MONTHLY;
+    const intervalSwitch =
+      timeInterval === IntervalE.MONTHLY ? IntervalE.YEARLY : IntervalE.MONTHLY;
     setTimeInterval(intervalSwitch);
   };
 

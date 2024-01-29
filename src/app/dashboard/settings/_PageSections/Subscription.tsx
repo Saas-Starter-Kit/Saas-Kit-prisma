@@ -45,7 +45,7 @@ const SubscriptionExists = ({ subscription }: SubscriptionExistsProps) => {
 
   useEffect(() => {
     matchSubscription();
-  }, []);
+  }, []); //eslint-disable-line
 
   const goToPortal = async () => {
     router.push(config.redirects.toBilling);

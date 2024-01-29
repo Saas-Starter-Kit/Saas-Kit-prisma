@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import React from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { Card, CardContent, CardTitle } from '@/components/ui/Card';
+import { PieChart, Pie, ResponsiveContainer } from 'recharts';
 
 const data01 = [
   { name: 'Group A', value: 400 },

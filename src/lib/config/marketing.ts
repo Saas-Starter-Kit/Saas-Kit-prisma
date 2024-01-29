@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import siteConfig from './site';
 
 const config = {
@@ -26,7 +25,7 @@ const config = {
       ]
     }
   },
-  metadate: {
+  metadata: {
     title: {
       default: siteConfig.name,
       template: `%s | ${siteConfig.name}`

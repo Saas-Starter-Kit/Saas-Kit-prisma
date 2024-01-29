@@ -1,29 +1,20 @@
 'use server';
-import * as context from 'next/headers';
-
 import { AuthError, PrismaDBError } from '@/lib/utils/error';
-import {
-  DisplayNameFormValues,
-  EmailFormValues,
-  UpdatePasswordFormValues
-} from '@/lib/types/validations';
-import { redirect } from 'next/navigation';
-import config from '@/lib/config/auth';
+import { DisplayNameFormValues, EmailFormValues } from '@/lib/types/validations';
 import { GetUser } from './queries';
 import prisma, { Prisma } from '../../Services/init/prisma';
 
 interface UpdateUserSubPropsT {
+  id: string;
   stripe_customer_id: string;
   subscription_id: string;
 }
 
 export const UpdateUserSubscription = async ({
+  id,
   stripe_customer_id,
   subscription_id
 }: UpdateUserSubPropsT) => {
-  const user = await GetUser();
-  const id = user?.id;
-
   const data: Prisma.UserUpdateInput = {
     stripe_customer_id,
     subscription: { connect: { id: subscription_id } }

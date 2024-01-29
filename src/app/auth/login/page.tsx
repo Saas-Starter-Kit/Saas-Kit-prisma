@@ -9,8 +9,6 @@ import {
 import Link from 'next/link';
 
 import AuthForm from '../_PageSections/AuthForm';
-import prisma from '@/lib/API/Services/init/prisma';
-import { PrismaDBError } from '@/lib/utils/error';
 
 export default async function Login() {
   return (
