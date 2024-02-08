@@ -42,7 +42,7 @@ export default function PlaygroundPage() {
           <h1 className="text-xl font-bold tracking-tight mb-2">Input:</h1>
           <form onSubmit={handleSubmit} className="h-full">
             <Textarea
-              placeholder="Submit some text to generate an AI reponse"
+              placeholder="Submit some text to generate an AI Response"
               className="min-h-[18rem]"
               value={input}
               onChange={handleInputChange}
