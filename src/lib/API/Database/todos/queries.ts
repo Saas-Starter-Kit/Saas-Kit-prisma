@@ -2,8 +2,9 @@ import { PrismaDBError } from '@/lib/utils/error';
 import { GetUser } from '../user/queries';
 import prisma from '../../Services/init/prisma';
 import { Todo } from '@prisma/client';
+import { cache } from 'react';
 
-export const GetTodosByUserId = async (): Promise<Todo[]> => {
+export const GetTodosByUserId = cache(async (): Promise<Todo[]> => {
   const user = await GetUser();
   const user_id = user?.id;
 
@@ -18,9 +19,9 @@ export const GetTodosByUserId = async (): Promise<Todo[]> => {
   } catch (err) {
     PrismaDBError(err);
   }
-};
+});
 
-export const GetTodoById = async (id: number): Promise<Todo> => {
+export const GetTodoById = cache(async (id: number): Promise<Todo> => {
   try {
     const todo = await prisma.todo.findFirst({
       where: {
@@ -32,9 +33,9 @@ export const GetTodoById = async (id: number): Promise<Todo> => {
   } catch (err) {
     PrismaDBError(err);
   }
-};
+});
 
-export const GetAllTodos = async (): Promise<Todo[]> => {
+export const GetAllTodos = cache(async (): Promise<Todo[]> => {
   try {
     const todos = await prisma.todo.findMany({
       take: 10
@@ -44,4 +45,4 @@ export const GetAllTodos = async (): Promise<Todo[]> => {
   } catch (err) {
     PrismaDBError(err);
   }
-};
+});
