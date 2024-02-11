@@ -26,12 +26,13 @@ https://www.saasstarterkit.com/
 -  ✅  Admin Dashboard
 -  ✅  Full Authentication, with Google Social Login
 -  ✅  User Profile Management with Email and Username change
--  ✅  User Dashboard
+-  ✅  Open AI integration
 -  ✅  Checkout Pages
 -  ✅  Landing and Pricing Page template
 -  ✅  Testing Setup with Playwright
 -  ✅  CRUD operations
 -  ✅  Stripe subscription payments
+-  ✅  User Dashboard (Pro version)
 -  ✅  Lemon Squeezy MoR (Pro version)
 -  ✅  Roles and permissions (Pro version)
 -  ✅  Team Invites (Pro version)
