@@ -1,24 +1,5 @@
 import { CloudCog, Camera, Clock2, Code2, DownloadCloudIcon, GitFork } from 'lucide-react';
-
-interface FeatureCardI {
-  heading: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
-const FeatureCard = ({ heading, description, icon }: FeatureCardI) => {
-  return (
-    <div className="rounded-lg border bg-background-light dark:bg-background-dark p-2">
-      <div className="flex h-[180px] flex-col justify-between p-6">
-        <div className="space-y-2">
-          {icon}
-          <h3 className="font-bold">{heading}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+import FeatureCard from './FeatureCard';
 
 export default async function FeatureList() {
   return (
