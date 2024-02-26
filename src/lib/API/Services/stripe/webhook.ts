@@ -1,4 +1,3 @@
-import 'server-only';
 import Stripe from 'stripe';
 import { RetrieveSubscription } from './customer';
 import { UpdateUserSubscription } from '../../Database/user/mutations';
