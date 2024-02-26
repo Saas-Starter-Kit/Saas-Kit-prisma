@@ -13,7 +13,7 @@ const Billing = () => {
   const handleSubscription = async () => {
     const res = await createPortalSession();
 
-    router.push(res.url);
+    router.push(res);
   };
 
   return (

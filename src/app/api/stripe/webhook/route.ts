@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { WebhookEventHandler } from '@/lib/API/Services/stripe/webhook';
 import type { NextRequest } from 'next/server';
-import { StripeEvent } from '@/lib/types/stripe';
+
+import Stripe from 'stripe';
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!sig || !webhookSecret) return;
-  const event: StripeEvent = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+  const event: Stripe.Event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
 
   try {
     await WebhookEventHandler(event);

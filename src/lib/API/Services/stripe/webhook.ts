@@ -1,7 +1,6 @@
 import 'server-only';
 import Stripe from 'stripe';
 import { RetrieveSubscription } from './customer';
-import { StripeEvent } from '@/lib/types/stripe';
 import { UpdateUserSubscription } from '../../Database/user/mutations';
 import { CreateSubscription, UpdateSubscription } from '../../Database/subscription/mutations';
 import { Subscription } from '@prisma/client';
@@ -12,10 +11,11 @@ const WebhookEvents = {
   checkout_session_completed: WebhookEventsE.CheckoutSessionCompleted
 };
 
-export const WebhookEventHandler = async (event: StripeEvent) => {
+export const WebhookEventHandler = async (event: Stripe.Event) => {
   // Handle the event
   switch (event.type) {
     case WebhookEvents.checkout_session_completed: {
+      //@ts-expect-error, incorrect type on Stripe.Event.
       const subscriptionId = event.data.object.subscription;
 
       const subscription: Stripe.Subscription = await RetrieveSubscription(subscriptionId);

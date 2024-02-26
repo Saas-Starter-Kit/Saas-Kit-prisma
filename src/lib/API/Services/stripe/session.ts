@@ -2,7 +2,6 @@
 
 import stripe from '@/lib/API/Services/init/stripe';
 import config from '@/lib/config/auth';
-import { PortalSessionT } from '@/lib/types/stripe';
 import Stripe from 'stripe';
 import { StripeError } from '@/lib/utils/error';
 import { GetUser } from '@/lib/API/Database/user/queries';
@@ -48,21 +47,15 @@ export const createCheckoutSession = async ({ price }: createCheckoutProps) => {
   return session;
 };
 
-export const createPortalSession = async (): Promise<PortalSessionT> => {
-  let portalSession: PortalSessionT;
-
+export const createPortalSession = async (): Promise<string> => {
   const user = await GetUser();
   const customer = user?.stripe_customer_id;
   const origin = configuration.url;
 
-  try {
-    portalSession = await stripe.billingPortal.sessions.create({
-      customer,
-      return_url: `${origin}${config.redirects.toSubscription}`
-    });
-  } catch (err) {
-    StripeError(err);
-  }
+  const portalSession = await stripe.billingPortal.sessions.create({
+    customer,
+    return_url: `${origin}${config.redirects.toSubscription}`
+  });
 
-  return portalSession;
+  return portalSession.url;
 };

@@ -2,8 +2,12 @@
 
 import stripe from '@/lib/API/Services/init/stripe';
 import Stripe from 'stripe';
-import { CustomerPropsT } from '@/lib/types/stripe';
 import { StripeError } from '@/lib/utils/error';
+
+interface CustomerPropsT {
+  customer: string;
+  email: string;
+}
 
 export const RetrieveSubscription = async (
   subscription_id: string

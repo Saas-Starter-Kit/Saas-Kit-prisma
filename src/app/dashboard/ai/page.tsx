@@ -1,7 +1,5 @@
 'use client';
 
-import { CounterClockwiseClockIcon } from '@radix-ui/react-icons';
-
 import { Button } from '@/components/ui/Button';
 
 import { Separator } from '@radix-ui/react-dropdown-menu';
