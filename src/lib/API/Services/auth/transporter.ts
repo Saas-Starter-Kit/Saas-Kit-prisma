@@ -2,12 +2,13 @@
 
 import nodemailer from 'nodemailer';
 
-const host = 'localhost';
-const port = 1025;
+const host = process.env.EMAIL_HOST || '127.0.0.1';
+const port = process.env.EMAIL_PORT || 1025;
 
 const transporter = nodemailer.createTransport({
   host,
-  port
+  port,
+  from
 });
 
 export default transporter;

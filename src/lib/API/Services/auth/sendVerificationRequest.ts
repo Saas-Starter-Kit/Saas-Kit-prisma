@@ -8,6 +8,7 @@ export const sendVerificationRequest = async ({
 }: SendVerificationRequestParams) => {
   try {
     await transporter.sendMail({
+      from: process.env.EMAIL_FROM || 'from-user@saasstarterkit.com',
       to: identifier,
       subject: 'Activate your account',
       text: url
