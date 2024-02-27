@@ -1,5 +1,6 @@
 import { Lock, CloudIcon } from 'lucide-react';
 import Image from 'next/image';
+import DashPic from '../../../../public/static/images/dash.png';
 
 const features = [
   {
@@ -49,12 +50,7 @@ const FeatureText = ({ isFlipped }: FeaturePropsI) => {
 const FeatureImage = () => {
   return (
     <div className="hidden lg:block self-center">
-      <Image
-        src="https://tailwindui.com/img/component-images/project-app-screenshot.png"
-        alt="Product screenshot"
-        width={3840}
-        height={75}
-      />
+      <Image src={DashPic} alt="Product screenshot" width={3840} height={75} />
     </div>
   );
 };

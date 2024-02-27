@@ -2,12 +2,13 @@ import { cn } from '@/lib/utils/helpers';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
 import Image from 'next/image';
+import DashPic from '../../../../public/static/images/dash.png';
 
 const HeroScreenshot = () => {
   return (
     <div className="hidden lg:grid items-center justify-center mt-16 mx-8">
       <Image
-        src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+        src={DashPic}
         alt="App screenshot"
         className="mx-auto h-[90%] lg:max-lg:w-[90%]  2xl:max-w-[72rem]"
         width={3840}
